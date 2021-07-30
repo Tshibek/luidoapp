@@ -1,0 +1,35 @@
+{% extends 'assets/layout.html' %}
+{% load  widget_tweaks %}
+{% block content %}
+<form class="form-horizontal" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+<div class="row spacer">
+<div class="col-2">
+    <label>{{form_daily.form_daily.label}}</label>
+</div>
+<div class="col-4">
+    <div class="input-group">
+        {% render_field form_daily.team class="form-select" %}
+        {% render_field form_daily.type class="form-select" %}
+        {% render_field form_daily.day_montage class="form-select" %}
+    </div>
+</div>
+</div>
+{{ formset.management_form }}
+{% for form in formset %}
+<div class="row form-row spacer">
+    <div class="col-4">
+        <div class="input-group">
+            {% render_field form.name class="form-select"%}
+            {% render_field form.status class="form-select"%}
+        </div>
+    </div>
+</div>
+{% endfor %}
+<div class="row spacer">
+    <div class="col-4 offset-2">
+        <button type="submit" class="btn btn-block btn-primary">Create</button>
+    </div>
+</div>
+</form>
+{% endblock %}

@@ -1,9 +1,15 @@
+from datetime import datetime
+
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db import IntegrityError
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.utils import timezone
+
 from . import forms
-from .models import Team, Monter, MontagePaid, DailyMontage
+from .models import Team, Monter, MontagePaid, DailyMontage, MonterDaily
 
 
 @login_required()
@@ -15,14 +21,14 @@ def home(request):
 def daily_hours(request):
     dailys = DailyMontage.objects.all()
     context = locals()
-    return render(request, 'hours.html',context)
+    return render(request, 'hours.html', context)
 
 
 @login_required()
 def montage_list(request):
     montages = MontagePaid.objects.all()
     context = locals()
-    return render(request, 'montage.html',context)
+    return render(request, 'montage.html', context)
 
 
 @login_required()
@@ -76,3 +82,52 @@ def add_team(request):
         except IntegrityError:
             messages.add_message(request, messages.ERROR, 'Ekipa o tej nazwie juz istnieje!')
     return render(request, 'forms/add_teams.html', context)
+
+
+@login_required()
+def add_daily_montage(request):
+    if request.method == 'GET':
+        form_daily = forms.DailyMontageForm(request.GET or None)
+        formset = forms.MonterDailyFormset(queryset=MonterDaily.objects.none())
+    if request.method == "POST":
+        form_daily = forms.DailyMontageForm(request.POST)
+        formset = forms.MonterDailyFormset(request.POST)
+        try:
+            if formset.is_valid() and form_daily.is_valid():
+                daily = form_daily.save(commit=False)
+                daily.user = request.user
+                daily.date = timezone.localdate()
+                daily.save()
+                for form in formset:
+                    monter = form.save(commit=False)
+                    monter.daily_montage = daily
+                    monter.time_start = timezone.localtime()
+                    monter.date = timezone.localdate()
+                    monter.save()
+                return redirect('core:daily_hours')
+        except IntegrityError:
+            messages.add_message(request, messages.ERROR,
+                                 'MONTAŻ DODANY, PRACOWNICY PRZYDZIELENI DO INNEJ EKIPY. SKONTAKTUJ SIE Z ADMINISTRATOREM!')
+    return render(request, 'forms/daily_montage.html', {
+        'form_daily': form_daily,
+        'formset': formset,
+    })
+
+
+@login_required()
+def end_daily_montage(request):
+    team = DailyMontage.objects.filter(user=request.user,date=timezone.localdate()).first()
+    if team:
+        print(team.pk)
+        montage = MonterDaily.objects.filter(daily_montage=team.pk).all()
+        for mon in montage:
+
+            mon.end_time = timezone.localtime()
+            mon.save()
+            # TODO REPAIR CALCULATE TIMES
+            print(datetime.strptime(str(mon.end_time),"%Y-%m-%d %H:%M:%S.%f"))
+            # t=datetime.strptime("{}".format(mon.end_time), '%H:%M:%S.%f')
+            # print(t)
+        print(montage)
+
+        return HttpResponseRedirect(reverse_lazy('core:daily_hours'))
