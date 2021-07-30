@@ -1,0 +1,66 @@
+{% extends 'assets/layout.html' %}
+{% block title %} Godziny Pracy{% endblock %}
+
+{% block content %}
+    <div class="container">
+        {% include 'buttons/layout_work.html' %}
+        <div class="row">
+            <div class="col-12 my-5">
+                <div class="table-responsive">
+                    <table id="daily" class="table table-sm">
+                    <thead>
+                    <tr>
+                        <th>Ekipa</th>
+                        <th>Rodzaj</th>
+                        <th>Data</th>
+                        <th>Start Pracy</th>
+                        <th>Koniec Pracy</th>
+                        <th>Suma Pracy</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for daily in dailys %}
+                        <tr>
+                            <td>{{ daily.team }}</td>
+                            <td>{{ daily.type }}</td>
+                            <td>{{ daily.date }}</td>
+                            <td>{{ daily.monter_daily.time_start }}</td>
+                            <td>{{ daily.monter_daily.end_time }}</td>
+                            <td>{{ daily.monter_daily.daily_hours }}</td>
+                        </tr>
+                    {% endfor %}
+
+
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <th>Ekipa</th>
+                        <th>Rodzaj</th>
+                        <th>Data</th>
+                        <th>Start Pracy</th>
+                        <th>Koniec Pracy</th>
+                        <th>Suma Pracy</th>
+
+                    </tr>
+                    </tfoot>
+                </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block extra_javascript %}
+    <script>
+        $(document).ready(function () {
+            $('#daily').DataTable({
+                "paging": true,
+                "ordering": true,
+                "info": false
+            });
+        });
+    </script>
+
+{% endblock %}

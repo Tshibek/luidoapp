@@ -1,0 +1,70 @@
+{% extends 'assets/layout.html' %}
+{% block title %}Montaże{% endblock %}
+{% block content %}
+    <div class="container">
+        {% include 'buttons/layout_montage.html' %}
+        <div class="row">
+            <div class="col-12 my-5">
+                <div class="table-responsive">
+                    <table id="montage" class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th>Link</th>
+                            <th>Ekipa</th>
+                            <th>Montaż</th>
+                            <th>Data</th>
+                            <th>Wycena</th>
+                            <th>Szafki</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for montage in montages %}
+                            <tr>
+
+                                <td><a href="{% url 'core:montage_detail' pk=montage.pk %}"
+                                       class="a-text"><i class="fas fa-info-circle"></i></a></td>
+                                <td>{{ montage.montage.team.team }}</td>
+                                <td>{{ montage.days }}</td>
+                                <td>{{ montage.date }}</td>
+                                <td>{{ montage.paid }}</td>
+                                <td>{{ montage.cabinet }}</td>
+
+                            </tr>
+                        {% endfor %}
+
+
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Link</th>
+                            <th>Ekipa</th>
+                            <th>Montaż</th>
+                            <th>Data</th>
+                            <th>Wycena</th>
+                            <th>Szafki</th>
+
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block extra_javascript %}
+    <script>
+        $(document).ready(function () {
+            $('#montage').DataTable({
+                "paging": true,
+                "ordering": true,
+                "info": false,
+            });
+        });
+    </script>
+
+{% endblock %}
+
+

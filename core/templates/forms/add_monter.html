@@ -1,0 +1,20 @@
+{% extends 'assets/layout.html' %}
+{% load widget_tweaks %}
+{% block title %}Dodaj Montażyste{% endblock %}
+{% block content %}
+    <div class="container pt-5">
+        <div class="row d-fle justify-content-center align-items-center" style="height: 350px">
+            <div class="col">
+                <form method="post" role="form" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-outline">
+                        {% render_field form.name class="form-control" id="name_team" %}
+                        <label class="form-label" for="name_team">Imię Montażysty</label>
+                    </div>
+                    <button id="add_team" class="btn bg-danger text-center" type="submit">DODAJ</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

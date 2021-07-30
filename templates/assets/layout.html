@@ -1,0 +1,23 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% include 'assets/header.html' %}
+    <title>LuidoApp | {% block title %}{% endblock %}</title>
+</head>
+<body>
+{% include 'assets/navbar.html' %}
+
+<div class="container-fluid">
+    {% block content %}{% endblock %}
+</div>
+
+{#{% include 'assets/footer.html' %}#}
+
+{% include 'assets/scripts.html' %}
+{% block extra_javascript %}{% endblock %}
+</body>
+
+</html>

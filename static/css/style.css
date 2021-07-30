@@ -1,0 +1,49 @@
+/*#22223B*/
+/*#4A4E69*/
+/*#9A8C98*/
+/*#C9ADA7*/
+/*#F2E9E4*/
+body, html {
+    background-color: #4A4E69 !important;
+    color: #F2E9E4 !important;
+}
+
+.navbar-brand {
+    color: #C9ADA7 !important;
+}
+
+.navbar-dark a {
+    color: #F2E9E4 !important;
+}
+
+.navbar-dark a:hover {
+    color: #9A8C98 !important;
+}
+
+.btn-dark {
+    background-color: #C9ADA7 !important;
+}
+
+table#daily, table#montage {
+    color: #B8ACA6 !important;
+}
+
+a#add_team.btn-dark, button#add_team {
+    background-color: #22223B !important;
+    color: #F2E9E4!important;
+}
+
+.form-control, label {
+    color: #F2E9E4 !important;
+}
+.a-text{
+    text-decoration: none!important;
+    color:#F2E9E4 ;
+    font-weight: bold;
+}
+.a-text:hover{
+    text-decoration: none!important;
+    color:#C9ADA7 ;
+    font-weight: bolder;
+
+}

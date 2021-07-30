@@ -1,0 +1,21 @@
+{% extends 'assets/layout.html' %}
+{% block title %}Strona Główna{% endblock %}
+
+{% block content %}
+
+    <div class="container pt-5">
+        <div class="row d-fle justify-content-center align-items-center" style="height: 250px">
+            {% if request.user.is_staff or request.user.is_superuser %}
+                <div class="col-auto"><a href="{% url 'core:add_monter' %}" id="add_team" class="btn btn-sm btn-dark">Dodaj
+                    Montażyste</a></div>
+            {% endif %}
+        </div>
+        <div class="row d-fle justify-content-center align-items-center" style="height: 50px">
+            {% for monter in monters %}
+                <div class="col-auto"><a class="btn btn-sm btn-dark">{{ monter.name }}</a></div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+{% endblock %}
