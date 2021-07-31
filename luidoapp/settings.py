@@ -29,7 +29,7 @@ DEBUG = env('DEBUG')
 if DEBUG is True:
     ALLOWED_HOSTS = []
 else:
-    ALLOWED_HOSTS = ['luidoapp.shadowanime.pl', 'www.luidoapp.shadowanime.pl']
+    ALLOWED_HOSTS = ['luidoapp.shadowanime.pl']
 
 # Application definition
 
