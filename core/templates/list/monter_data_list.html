@@ -1,0 +1,75 @@
+{% extends 'assets/layout.html' %}
+{% block title %}Lista {{ name }}{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-12">
+                <h1 class="text-center text-color">LISTA {{ name|upper }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 my-5">
+                <div class="table-responsive">
+                    <table id="montage" class="table table-sm">
+                        <thead>
+                        <tr>
+
+                            <th>Status</th>
+                            <th>Montaż</th>
+                            <th>Start Pracy</th>
+                            <th>Koniec Pracy</th>
+                            <th>Suma</th>
+                            <th>Data</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for monters in monter %}
+                            <tr>
+
+
+                                <td>{{ monters.status }}</td>
+                                <td ><a href="" class="a-text" >{{ monters.daily_montage }}</a></td>
+                                <td>{{ monters.time_start }}</td>
+                                <td>{{ monters.end_time }}</td>
+                                <td>{{ monters.daily_hours }}</td>
+                                <td>{{ monters.date }}</td>
+
+                            </tr>
+                        {% endfor %}
+
+
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>Status</th>
+                            <th>Montaż</th>
+                            <th>Start Pracy</th>
+                            <th>Koniec Pracy</th>
+                            <th>Suma</th>
+                            <th>Data</th>
+
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+{% block extra_javascript %}
+    <script>
+        $(document).ready(function () {
+            $('#montage').DataTable({
+                "paging": true,
+                "ordering": true,
+                "info": false,
+            });
+        });
+    </script>
+
+{% endblock %}
+
+

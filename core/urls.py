@@ -28,8 +28,13 @@ urlpatterns = [
     path('montage', views.montage_list, name='montage_list'),
     path('montage/add', views.add_daily_montage,name='montage_post'),
     path('montage/<int:pk>', views.montage_detail,name='montage_detail'),
+
     path('monter', views.monter_list, name='monter_list'),
     path('monter/add', views.add_monter, name='add_monter'),
+    path('monter/<int:pk>/<str:name>', views.monter_data_list, name='monter_data_list'),
+
+    path('paid', views.montage_paid_list, name='montage_paid_list'),
+    path('paid/add',views.add_montage_paid, name='montage_paid_post'),
 
 
     path('teams', views.team_list,name='team_list'),

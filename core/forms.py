@@ -37,4 +37,4 @@ MonterDailyFormset = modelformset_factory(
 class MontagePaidForm(forms.ModelForm):
     class Meta:
         model = MontagePaid
-        fields = ('days', 'paid', 'cabinet', 'comment', 'build', 'cornice', 'turnbuckles', 'type_table')
+        fields = ('days', 'paid', 'cabinet', 'status','comment', 'build', 'cornice', 'turnbuckles', 'type_table')

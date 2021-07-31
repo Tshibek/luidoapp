@@ -11,7 +11,9 @@ body, html {
 .navbar-brand {
     color: #C9ADA7 !important;
 }
-
+.text-color{
+    color: #C9ADA7;
+}
 .navbar-dark a {
     color: #F2E9E4 !important;
 }
@@ -26,6 +28,9 @@ body, html {
 
 table#daily, table#montage {
     color: #B8ACA6 !important;
+}
+.text-dark{
+    color: #22223B!important;
 }
 
 a#add_team.btn-dark, button#add_team {

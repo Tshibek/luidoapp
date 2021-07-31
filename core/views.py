@@ -18,15 +18,22 @@ def home(request):
 
 
 @login_required()
+def monter_data_list(request, pk, name):
+    monter = MonterDaily.objects.filter(name=pk, name__name=name).all().order_by('-date')
+    context = locals()
+    return render(request, 'list/monter_data_list.html', context)
+
+
+@login_required()
 def daily_hours(request):
-    dailys = DailyMontage.objects.all()
+    dailys = DailyMontage.objects.all().order_by('-date')
     context = locals()
     return render(request, 'hours.html', context)
 
 
 @login_required()
 def montage_list(request):
-    montages = MontagePaid.objects.all()
+    montages = MontagePaid.objects.all().order_by('-date')
     context = locals()
     return render(request, 'montage.html', context)
 
@@ -116,18 +123,59 @@ def add_daily_montage(request):
 
 @login_required()
 def end_daily_montage(request):
-    team = DailyMontage.objects.filter(user=request.user,date=timezone.localdate()).first()
+    team = DailyMontage.objects.filter(user=request.user, date=timezone.localdate()).first()
     if team:
-        print(team.pk)
         montage = MonterDaily.objects.filter(daily_montage=team.pk).all()
         for mon in montage:
-
-            mon.end_time = timezone.localtime()
-            mon.save()
-            # TODO REPAIR CALCULATE TIMES
-            print(datetime.strptime(str(mon.end_time),"%Y-%m-%d %H:%M:%S.%f"))
-            # t=datetime.strptime("{}".format(mon.end_time), '%H:%M:%S.%f')
-            # print(t)
-        print(montage)
+            if mon.status == 'URLOP' or mon.status == 'L4':
+                start = mon.time_start
+                ax = int(start.strftime('%H')) * 60 + (int(start.strftime('%M')))
+                zx = (ax + 480) / 60
+                h = int(zx)
+                m = (h * 60) % 60
+                mon.end_time = "%d:%02d" % (h, m)
+                mon.save()
+                all_time = 480 / 60
+                ho = int(all_time)
+                mins = (ho * 60) % 60
+                mon.daily_hours = "%d:%02d" % (ho, mins)
+                mon.save()
+            else:
+                mon.end_time = timezone.localtime()
+                mon.save()
+                end = mon.end_time
+                start = mon.time_start
+                x = int(end.strftime('%H')) * 60 + (int(end.strftime('%M')))
+                y = int(start.strftime('%H')) * 60 + (int(start.strftime('%M')))
+                time = (x - y) / 60
+                hours = int(time)
+                minutes = (time * 60) % 60
+                mon.daily_hours = "%d:%02d" % (hours, minutes)
+                mon.save()
 
         return HttpResponseRedirect(reverse_lazy('core:daily_hours'))
+
+
+@login_required()
+def montage_paid_list(request):
+    pass
+
+
+@login_required()
+def add_montage_paid(request):
+    form = forms.MontagePaidForm(request.POST)
+    context = locals()
+    if request.method == 'POST':
+        form = forms.MontagePaidForm(request.POST)
+        try:
+            if form.is_valid():
+                montage = DailyMontage.objects.filter(user=request.user, date=timezone.localdate()).first()
+                instance = form.save(commit=False)
+                instance.montage = montage
+                instance.date = timezone.localdate()
+                instance.save()
+                return redirect('core:team_list')
+        except IntegrityError:
+            messages.add_message(request, messages.ERROR, 'Ekipa o tej nazwie juz istnieje!')
+
+    return render(request, 'forms/add_montage_paid.html', context)

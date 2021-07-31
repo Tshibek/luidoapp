@@ -1,0 +1,89 @@
+{% extends 'assets/layout.html' %}
+{% load  widget_tweaks %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center my-5">
+                    <h1 class="">Dane Montażu</h1>
+                </div>
+
+            </div>
+        </div>
+        <form class="form-horizontal" id="paid" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row mb-4">
+                <div class="col">
+
+                    <label class="form-label" for="form1Example1" style="margin-left: 0px;">Dni:</label>
+                    {% render_field form.days class="form-select text-black" id="form1Example1" %}
+
+                </div>
+                <div class="col">
+
+                    <label class="form-label" for="form2Example2" style="margin-left: 0px;">Wycena:</label>
+                    {% render_field form.paid class="form-control text-black" id="form2Example2" %}
+
+                </div>
+                <div class="col">
+
+                    <label class="form-label" for="form3Example1" style="margin-left: 0px;">Szafek:</label>
+                    {% render_field form.cabinet class="form-control text-black" id="form3Example1" %}
+
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col">
+
+                    <label class="form-label" for="form3Example1" style="margin-left: 0px;">Status:</label>
+                    {% render_field form.status class="form-select text-black" id="form3Example1" %}
+
+                </div>
+                <div class="col">
+
+                    <label class="form-label" for="form3Example1" style="margin-left: 0px;">Komentarz:</label>
+                    {% render_field form.comment class="form-control text-black" id="form3Example1" rows="2" %}
+
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <small class="text-center my-3">Jeśli ciemne, to znaczy, że jest</small>
+                <div class="col">
+
+                    {% render_field form.build class="btn-check" id="btn-check-build" %}
+                    <label class="btn btn-warning btn-block" for="btn-check-build">Zabudowa?</label>
+
+                </div>
+                <div class="col">
+
+
+                    {% render_field form.cornice class="btn-check" id="btn-check-gzyms" %}
+                    <label class="btn btn-warning btn-block" for="btn-check-gzyms">GZYMS?</label>
+
+                </div>
+            </div>
+
+
+            <div class="row mb-4">
+                <div class="col">
+
+                    <label class="form-label" for="form3Example1" style="margin-left: 0px;">Ilość rzymskich:</label>
+                    {% render_field form.turnbuckles class="form-control text-black" id="form3Example1" %}
+
+                </div>
+                <div class="col">
+
+                    <label class="form-label" for="form3Example1" style="margin-left: 0px;">Łączenie blatów:</label>
+                    {% render_field form.type_table class="form-control text-black" id="form3Example1" %}
+
+                </div>
+            </div>
+            <div class="row my-5">
+                <div class="col-8 offset-2">
+                    <button type="submit" class="btn btn-block btn-dark">Dodaj</button>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

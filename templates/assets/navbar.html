@@ -15,6 +15,7 @@
 
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {% if request.user.is_authenticated %}
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <!-- Link -->
@@ -35,9 +36,9 @@
                 </li>
 
             </ul>
-
+{% endif %}
             <!-- Icons -->
-            <ul class="navbar-nav d-flex flex-row me-1">
+            <ul class="navbar-nav d-flex flex-row me-1 m-auto">
             {% if request.user.is_authenticated %}
                 <li class="nav-item me-3 me-lg-0 ">
                     <a class="nav-link font-weight-bold" href="#">{{request.user.username|upper}}</a>

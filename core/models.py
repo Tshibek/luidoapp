@@ -43,11 +43,10 @@ class DailyMontage(models.Model):
         return '{}-{}/{}'.format(self.team.team, self.type, self.date)
 
     def monter_daily(self):
-        monter_daily = MonterDaily.objects.filter(daily_montage=self.pk).first()
+        monter_daily = MonterDaily.objects.filter(daily_montage=self.pk,status='PRACUJE').first()
         return monter_daily
 
     def save(self, *args, **kwargs):
-        ''' On save, update timestamps '''
         if not self.id:
             self.created = timezone.now()
         self.updated = timezone.now()
@@ -61,7 +60,7 @@ class DailyMontage(models.Model):
 
 class MonterDaily(models.Model):
     name = models.ForeignKey(Monter, on_delete=models.SET_NULL, null=True)
-    status = models.CharField(choices=utils.STATUS, max_length=30, default='PRACUJE')
+    status = models.CharField(choices=utils.STATUS, max_length=30, default='PRACUJE', null=True, blank=True)
     daily_montage = models.ForeignKey(DailyMontage, on_delete=models.SET_NULL, null=True)
     time_start = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
@@ -72,6 +71,7 @@ class MonterDaily(models.Model):
 
     def __str__(self):
         return '{},{}'.format(self.name, self.status)
+
 
     def save(self, *args, **kwargs):
         """ On save, update timestamps """
@@ -89,6 +89,7 @@ class MonterDaily(models.Model):
 class MontagePaid(models.Model):
     montage = models.ForeignKey(DailyMontage, on_delete=models.CASCADE)
     days = models.CharField(choices=utils.DAYS, default='Jednodniówka', max_length=30)
+    status = models.CharField(choices=utils.STATUS_MONTAGE, default='WYKONANE', max_length=50)
     date = models.DateField(null=True,blank=True)
     paid = models.PositiveSmallIntegerField(default=0)
     cabinet = models.PositiveSmallIntegerField(default=0)  # ilość szafek
