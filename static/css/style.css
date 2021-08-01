@@ -6,6 +6,7 @@
 body, html {
     background-color: #4A4E69 !important;
     color: #F2E9E4 !important;
+    min-height: 100%;
 }
 
 .navbar-brand {
