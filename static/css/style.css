@@ -33,7 +33,7 @@ table#daily, table#montage {
     color: #22223B!important;
 }
 
-a#add_team.btn-dark, button#add_team {
+a#add_team.btn-dark, button#add_team{
     background-color: #22223B !important;
     color: #F2E9E4!important;
 }
@@ -50,5 +50,9 @@ a#add_team.btn-dark, button#add_team {
     text-decoration: none!important;
     color:#C9ADA7 ;
     font-weight: bolder;
+
+}
+.s-text{
+        color:#C9ADA7 ;
 
 }

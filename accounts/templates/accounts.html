@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'assets/layout.html' %}
+{% block title %}Profil - {{ request.user.username | upper }}{% endblock %}
+{% block content %}
+    <div class="container mt-5">
+        <div class="row mt-5">
+            <div class="col mt-5">
+                <h1 class="text-center mt-5">COS TU SIĘ KIEDYŚ POKAŻE</h1>
+            </div>
+        </div>
 
-</body>
-</html>
+    </div>
+{% endblock %}

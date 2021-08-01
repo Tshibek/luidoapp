@@ -157,11 +157,6 @@ def end_daily_montage(request):
 
 
 @login_required()
-def montage_paid_list(request):
-    pass
-
-
-@login_required()
 def add_montage_paid(request):
     form = forms.MontagePaidForm(request.POST)
     context = locals()
@@ -179,3 +174,5 @@ def add_montage_paid(request):
             messages.add_message(request, messages.ERROR, 'Ekipa o tej nazwie juz istnieje!')
 
     return render(request, 'forms/add_montage_paid.html', context)
+
+

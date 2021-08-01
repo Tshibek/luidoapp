@@ -41,7 +41,7 @@
             <ul class="navbar-nav d-flex flex-row me-1 m-auto">
             {% if request.user.is_authenticated %}
                 <li class="nav-item me-3 me-lg-0 ">
-                    <a class="nav-link font-weight-bold" href="#">{{request.user.username|upper}}</a>
+                    <a class="nav-link font-weight-bold" href="{% url 'accounts:profile' username=request.user.username %}">{{request.user.username|upper}}</a>
                 </li>
             {% else %}
                 <li class="nav-item me-3 me-lg-0">
