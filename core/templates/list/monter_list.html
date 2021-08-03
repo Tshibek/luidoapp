@@ -12,7 +12,7 @@
         </div>
         <div class="row d-fle justify-content-center align-items-center" style="height: 50px">
             {% for monter in monters %}
-                <div class="col-auto"><a href="{% url 'core:monter_data_list' pk=monter.pk name=monter.name %}" class="btn btn-sm btn-dark">{{ monter.name }}</a></div>
+                <div class="col-auto mb-5"><a href="{% url 'core:monter_data_list' pk=monter.pk name=monter.name %}" class="btn btn-sm btn-dark">{{ monter.name }}</a></div>
             {% endfor %}
 
         </div>
