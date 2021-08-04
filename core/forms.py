@@ -38,3 +38,10 @@ class MontagePaidForm(forms.ModelForm):
     class Meta:
         model = MontagePaid
         fields = ('days', 'paid', 'cabinet', 'status','comment', 'build', 'cornice', 'turnbuckles', 'type_table')
+
+
+class MontageFullPaid(MontagePaidForm): #extending form
+    images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+    class Meta(MontagePaidForm.Meta):
+        fields = MontagePaidForm.Meta.fields + ('images',)

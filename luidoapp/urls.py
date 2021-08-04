@@ -16,9 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from luidoapp import settings
+
 urlpatterns = [
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('luido_admin_site/', admin.site.urls),
     path('', include('core.urls', namespace='core')),
     path('accounts/', include('accounts.urls', namespace='accounts'))
 ]
+from django.conf.urls.static import static
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

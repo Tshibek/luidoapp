@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 
 from . import forms
-from .models import Team, Monter, MontagePaid, DailyMontage, MonterDaily
+from .models import Team, Monter, MontagePaid, DailyMontage, MonterDaily, MontageGallery
 
 
 @login_required()
@@ -158,10 +158,12 @@ def end_daily_montage(request):
 
 @login_required()
 def add_montage_paid(request):
-    form = forms.MontagePaidForm(request.POST)
+    form = forms.MontageFullPaid()
+
     context = locals()
     if request.method == 'POST':
-        form = forms.MontagePaidForm(request.POST)
+        form = forms.MontageFullPaid(request.POST or None, request.FILES or None)
+        files = request.FILES.getlist('images')
         try:
             if form.is_valid():
                 montage = DailyMontage.objects.filter(user=request.user, date=timezone.localdate()).first()
@@ -169,6 +171,8 @@ def add_montage_paid(request):
                 instance.montage = montage
                 instance.date = timezone.localdate()
                 instance.save()
+                for f in files:
+                    MontageGallery.objects.create(montage=instance,user_id=request.user.pk, images=f)
                 return redirect('core:team_list')
         except IntegrityError:
             messages.add_message(request, messages.ERROR, 'Ekipa o tej nazwie juz istnieje!')

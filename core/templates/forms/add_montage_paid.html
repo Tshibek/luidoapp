@@ -65,7 +65,7 @@
             </div>
 
 
-            <div class="row mb-4">
+            <div class="row">
                 <div class="col">
 
                     <label class="form-label" for="form3Example1" style="margin-left: 0px;">Ilość rzymskich:</label>
@@ -77,6 +77,11 @@
                     <label class="form-label" for="form3Example1" style="margin-left: 0px;">Łączenie blatów:</label>
                     {% render_field form.type_table class="form-control text-black" id="form3Example1" %}
 
+                </div>
+            </div>
+            <div class="row mb-4 mt-5">
+                <div class="col">
+                    {% render_field form.images class="form-control" type="file"%}
                 </div>
             </div>
             <div class="row">
