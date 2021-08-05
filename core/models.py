@@ -5,6 +5,8 @@ from django.db import models
 
 # Create your models here.
 from django.utils import timezone
+from sorl.thumbnail import ImageField
+
 from . import utils
 
 
@@ -130,6 +132,6 @@ def montage_gallery_path(instance, filename):
 class MontageGallery(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     montage = models.ForeignKey(MontagePaid, on_delete=models.CASCADE)
-    images = models.ImageField(upload_to=montage_gallery_path, null=True, blank=True)
+    images = ImageField(upload_to=montage_gallery_path, null=True, blank=True)
     date = models.DateField(auto_now_add=True)
 

@@ -13,8 +13,12 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, re_path
+from django.views.static import serve
+
+from luidoapp.settings import MEDIA_ROOT
 from . import views
 
 app_name = 'core'
@@ -36,4 +40,6 @@ urlpatterns = [
 
     path('teams', views.team_list,name='team_list'),
     path('teams/add',views.add_team,name='add_team'),
+    # re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT})
 ]
+

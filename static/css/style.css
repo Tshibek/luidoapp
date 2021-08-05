@@ -12,9 +12,11 @@ body, html {
 .navbar-brand {
     color: #C9ADA7 !important;
 }
-.text-color{
+
+.text-color {
     color: #C9ADA7;
 }
+
 .navbar-dark a {
     color: #F2E9E4 !important;
 }
@@ -30,30 +32,70 @@ body, html {
 table#daily, table#montage {
     color: #B8ACA6 !important;
 }
-.text-dark{
-    color: #22223B!important;
+
+.text-dark {
+    color: #22223B !important;
 }
 
-a#add_team.btn-dark, button#add_team{
+a#add_team.btn-dark, button#add_team {
     background-color: #22223B !important;
-    color: #F2E9E4!important;
+    color: #F2E9E4 !important;
 }
 
 .form-control, label {
     color: #F2E9E4 !important;
 }
-.a-text{
-    text-decoration: none!important;
-    color:#F2E9E4 ;
+
+.a-text {
+    text-decoration: none !important;
+    color: #F2E9E4;
     font-weight: bold;
 }
-.a-text:hover{
-    text-decoration: none!important;
-    color:#C9ADA7 ;
+
+.a-text:hover {
+    text-decoration: none !important;
+    color: #C9ADA7;
     font-weight: bolder;
 
 }
-.s-text{
-        color:#C9ADA7 ;
+
+.s-text {
+    color: #C9ADA7;
 
 }
+
+@media (max-width: 767px) {
+    .carousel-inner .carousel-item > div {
+        display: none;
+    }
+
+    .carousel-inner .carousel-item > div:first-child {
+        display: block;
+    }
+}
+
+.carousel-inner .carousel-item.active,
+.carousel-inner .carousel-item-next,
+.carousel-inner .carousel-item-prev {
+    display: flex;
+}
+
+/* medium and up screens */
+@media (min-width: 768px) {
+
+    .carousel-inner .carousel-item-end.active,
+    .carousel-inner .carousel-item-next {
+        transform: translateX(25%);
+    }
+
+    .carousel-inner .carousel-item-start.active,
+    .carousel-inner .carousel-item-prev {
+        transform: translateX(-25%);
+    }
+}
+
+.carousel-inner .carousel-item-end,
+.carousel-inner .carousel-item-start {
+    transform: translateX(0);
+}
+
