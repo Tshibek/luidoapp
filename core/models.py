@@ -1,12 +1,15 @@
+import sys
 from datetime import datetime
 
 from django.contrib.auth.models import User
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 
 # Create your models here.
 from django.utils import timezone
 from sorl.thumbnail import ImageField
-
+from PIL import Image
+from io import BytesIO
 from . import utils
 
 
@@ -134,4 +137,19 @@ class MontageGallery(models.Model):
     montage = models.ForeignKey(MontagePaid, on_delete=models.CASCADE)
     images = ImageField(upload_to=montage_gallery_path, null=True, blank=True)
     date = models.DateField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.images = self.compressImage(self.images)
+        super(MontageGallery, self).save(*args, **kwargs)
+
+    def compressImage(self, images):
+        imageTemproary = Image.open(images)
+        outputIoStream = BytesIO()
+        imageTemproaryResized = imageTemproary.resize((2760, 1312))
+        imageTemproary.save(outputIoStream, format='JPEG', quality=60)
+        outputIoStream.seek(0)
+        uploadedImage = InMemoryUploadedFile(outputIoStream, 'ImageField', "%s.jpg" % images.name.split('.')[0],
+                                             'image/jpeg', sys.getsizeof(outputIoStream), None)
+        return uploadedImage
 
