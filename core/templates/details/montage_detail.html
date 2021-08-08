@@ -8,9 +8,74 @@
                 <div id="add_team" class="card bg-dark text-white"
                      style="border-radius: 1rem;background-color: #22223B!important;">
                     <div class="card-body p-5 text-center">
-                        {% for image in montage.get_images %}
-                            {#                            <img src="{{ MEDIA_URL }}{{ image.images }}">#}
-                        {% endfor %}
+
+                        <div class="row pt-2">
+                            <div class="col">
+                                <p>Montaż:</p>
+                                <small>{{ montage.days }}</small>
+                            </div>
+                            <div class="col">
+                                <p>STATUS</p>
+                                <small class="text-danger font-weight-bold">{{ montage.status }}</small>
+                            </div>
+                            <div class="col">
+                                <p>WYCENA</p>
+                                <small>{{ montage.paid }}</small>
+                            </div>
+                            <div class="col">
+                                <p>SZAFKI</p>
+                                <small>{{ montage.cabinet }}</small>
+                            </div>
+                        </div>
+
+
+                        {% if montage.comment %}
+                        <div class="row pt-5">
+                            <div class="col">
+                                <p>KOMENTARZ</p>
+                                <small>{{ montage.comment }}</small>
+                            </div>
+                        </div>
+                        {% endif %}
+                        <div class="row pt-5">
+                            <div class="col">
+                                <p>ZABUDOWA?</p>
+                                <small>{% if montage.build is False %}BRAK{% else %}TAK{% endif %}</small>
+                            </div>
+                            <div class="col">
+                                <p>GZYMS?</p>
+                                <small>{% if montage.cornice is False %}BRAK{% else %}TAK{% endif %}</small>
+                            </div>
+                        </div>
+
+                    <div class="row pt-5">
+                        <div class="col">
+                            <p>ILOŚĆ RZYMSKICH</p>
+                            <small>{{ montage.turnbuckles }}</small>
+                        </div>
+                        <div class="col">
+                            <p>ŁĄCZENIE BLATÓW</p>
+                            <small>{{ montage.type_table }}</small>
+                        </div>
+                    </div>
+
+                    <div class="row pt-5">
+                            <div class="col">
+                                <p>EKIPA</p>
+                                <small class="text-info font-weight-bold">{{ montage.montage.team }}</small>
+                            </div>
+                            <div class="col">
+                                <p>DATA:</p>
+                                <small>{{ montage.date }}</small>
+                            </div>
+                            <div class="col">
+                                <p>RODZAJ</p>
+                                <small>{{ montage.montage.type }}</small>
+                            </div>
+                        </div>
+
+
+
                     </div>
                 </div>
             </div>
