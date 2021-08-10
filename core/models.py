@@ -15,7 +15,7 @@ from . import utils
 
 class Monter(models.Model):
     name = models.CharField(max_length=15)
-    type = models.CharField(choices=utils.TYPE_MONTER, default='MONTAŻ')
+    type = models.CharField(choices=utils.TYPE_MONTER, default='MONTAŻ',max_length=15)
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField()
 
