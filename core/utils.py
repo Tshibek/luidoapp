@@ -8,6 +8,7 @@ TYPE = (
     ('Reklamacja', 'Reklamacja'),
     ('Montaż + Reklamacja', 'Montaż + Reklamacja'),
     ('Capacity', 'Capacity'),
+    ('Prywatne', 'Prywatne')
 )
 DAY_MONTAGE = (
     ('1/1', 'Jeden dzień - 1/1'),
@@ -26,4 +27,9 @@ DAYS = (
 STATUS_MONTAGE = (
     ('WYKONANE', 'WYKONANE'),
     ('NIEWYKONANE', 'NIEWYKONANE + DODAJ KOMENTARZ')
+)
+
+TYPE_MONTER = (
+    ('MONTAŻ', 'MONTAŻ'),
+    ('REKLAMACJA', 'REKLAMACJA')
 )

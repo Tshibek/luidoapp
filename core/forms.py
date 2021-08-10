@@ -12,7 +12,7 @@ class TeamForm(forms.ModelForm):
 class MonterForm(forms.ModelForm):
     class Meta:
         model = Monter
-        fields = ('name',)
+        fields = ('name','type')
 
 
 class DailyMontageForm(forms.ModelForm):
