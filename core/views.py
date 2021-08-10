@@ -39,6 +39,13 @@ def montage_list(request):
 
 
 @login_required()
+def montage_team_list(request, pk):
+    montages = MontagePaid.objects.filter(montage__team=pk).all()
+    context = locals()
+    return render(request, 'montage.html')
+
+
+@login_required()
 def montage_detail(request, pk):
     montage = MontagePaid.objects.filter(pk=pk).first()
     context = locals()
@@ -172,11 +179,9 @@ def add_montage_paid(request):
                 instance.date = timezone.localdate()
                 instance.save()
                 for f in files:
-                    MontageGallery.objects.create(montage=instance,user_id=request.user.pk, images=f)
+                    MontageGallery.objects.create(montage=instance, user_id=request.user.pk, images=f)
                 return redirect('core:team_list')
         except IntegrityError:
             messages.add_message(request, messages.ERROR, 'Ekipa o tej nazwie juz istnieje!')
 
     return render(request, 'forms/add_montage_paid.html', context)
-
-
