@@ -29,7 +29,7 @@
 
 
                                 <td>{{ monters.status }}</td>
-                                <td ><a href="" class="a-text" >{{ monters.daily_montage }}</a></td>
+                                <td ><a href="{% url 'core:montage_detail' pk=monters.daily_montage.pk %}" class="a-text" >{{ monters.daily_montage }}</a></td>
                                 <td>{{ monters.time_start }}</td>
                                 <td>{{ monters.end_time }}</td>
                                 <td>{{ monters.daily_hours }}</td>
