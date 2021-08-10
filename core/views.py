@@ -113,11 +113,13 @@ def add_daily_montage(request):
                 daily.date = timezone.localdate()
                 daily.save()
                 for form in formset:
-                    monter = form.save(commit=False)
-                    monter.daily_montage = daily
-                    monter.time_start = timezone.localtime()
-                    monter.date = timezone.localdate()
-                    monter.save()
+                    if form.is_valid():
+                        if form.has_changed():
+                            monter = form.save(commit=False)
+                            monter.daily_montage = daily
+                            monter.time_start = timezone.localtime()
+                            monter.date = timezone.localdate()
+                            monter.save()
                 return redirect('core:daily_hours')
         except IntegrityError:
             messages.add_message(request, messages.ERROR,
