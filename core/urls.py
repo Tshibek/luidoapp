@@ -40,7 +40,7 @@ urlpatterns = [
 
     path('teams', views.team_list,name='team_list'),
     path('teams/add',views.add_team,name='add_team'),
-    path('team/montage/<int:pk>',views.montage_team_list, name='montage_team_list')
+    path('team/montage/<str:name>',views.montage_team_list, name='montage_team_list')
     # re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT})
 ]
 

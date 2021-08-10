@@ -12,7 +12,7 @@
         </div>
         <div class="row d-fle justify-content-center align-items-center" style="height: 50px">
             {% for team in teams %}
-                <div class="col-auto"><a href="{% url 'core:montage_team_list' pk=team.pk %}" class="btn btn-sm btn-dark">{{ team.team }}</a></div>
+                <div class="col-auto"><a href="{% url 'core:montage_team_list' name=team.team %}" class="btn btn-sm btn-dark">{{ team.team }}</a></div>
             {% endfor %}
 
         </div>
