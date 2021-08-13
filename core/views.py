@@ -1,3 +1,4 @@
+from calendar import monthrange
 from datetime import datetime
 
 from django.contrib import messages
@@ -15,6 +16,17 @@ from .models import Team, Monter, MontagePaid, DailyMontage, MonterDaily, Montag
 @login_required()
 def home(request):
     return render(request, 'index.html')
+
+
+@login_required()
+def example_table(request,name,month):
+    monter = MonterDaily.objects.filter(name__name=name, date__month=month).all()
+    num_days = monthrange(2021, 9)[1]  # num_days = 28
+    # num_days = str(num_days)
+    num_days = range(1,num_days+1)
+
+    context = locals()
+    return render(request, 'table_hours.html',context)
 
 
 @login_required()
@@ -42,7 +54,7 @@ def montage_list(request):
 def montage_team_list(request, name):
     montages = MontagePaid.objects.filter(montage__team__team=name).all()
     context = locals()
-    return render(request, 'montage.html',context)
+    return render(request, 'montage.html', context)
 
 
 @login_required()

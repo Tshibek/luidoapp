@@ -1,0 +1,73 @@
+{% extends 'assets/table_layout.html' %}
+{% load month_tags %}
+<span>FIRMA:<small>P.P.H.U LUIDO ANNA DĘBSKA</small></span>
+<span>OBECNOŚĆ MIESIĄC:<small>LIPIEC</small></span>
+<span>IMIĘ I NAZWISKO: <span>LOREM IPSUM</span></span>
+<span>DZIEŃ MIESIĄCA</span>
+<span>GODZINA ROZPOCZĘCIA</span>
+<span>GODZINA ZAKOŃCZENIA</span>
+<span>SUMA</span>
+<span>PODPIS PRACOWNIKA</span>
+
+{% block content %}
+    <div class="container">
+        <div class="row border-top-0 border-dark">
+            <div class="col-3 border border-dark p-2">Firma:</div>
+            <div class="col-7 border border-dark p-2">P.P.H.U LUIDO ANNA DĘBSKA</div>
+        </div>
+        <div class="row border-top-0 border-dark">
+            <div class="col-3 border border-dark p-2">Obecność miesiąc:</div>
+            <div class="col-7 border border-dark p-2">{{ month | month_name|upper }}</div>
+        </div>
+        <div class="row border-top-0 border-dark">
+            <div class="col-3 border border-dark p-2">Imie nazwisko:</div>
+            <div class="col-7 border border-dark p-2"></div>
+        </div>
+        <div class="row border-top-0 border-dark">
+            <div class="col-2 border border-dark p-2">dzien miesiąca</div>
+            <div class="col-2 border border-dark p-2">godzina rozpoczęcia</div>
+            <div class="col-2 border border-dark p-2">godzina zakonczenia</div>
+            <div class="col-2 border border-dark p-2">suma</div>
+            <div class="col-2 border border-dark p-2">podpis pracownika</div>
+        </div>
+{#        {% for time in num_days %}#}
+        {% for monters in monter %}
+
+            <div class="row border-top-0 border-dark">
+                <div class="col-2 border border-dark p-2">{{ monters.date |date:'d' }}</div>
+                <div class="col-2 border border-dark p-2">8:12</div>
+                <div class="col-2 border border-dark p-2">11:20</div>
+                <div class="col-2 border border-dark p-2">4:00</div>
+                <div class="col-2 border border-dark p-2">xxxx</div>
+            </div>
+        {% endfor %}
+{#        {% endfor %}#}
+        <div class="row border-top-0 border-dark">
+            <div class=" col-2 border border-dark p-2"></div>
+            <div class=" col-4 border border-dark p-2">Łącznie godzin wynikających z etatu</div>
+            <div class=" col-2 border border-dark p-2"></div>
+            <div class=" col-2 border border-dark p-2"></div>
+        </div>
+        <div class="row border-top-0 border-dark">
+            <div class=" col-2 border border-dark p-2"></div>
+            <div class=" col-4 border border-dark p-2">Łącznie godzin powyżej z etatu</div>
+            <div class=" col-2 border border-dark p-2"></div>
+            <div class=" col-2 border border-dark p-2"></div>
+        </div>
+
+        <div class="row border-top-0 border-dark mt-4">
+            <div class=" col-2 border border-dark p-2">podpis Pracodawca</div>
+            <div class=" col-2 border border-dark p-2">Data</div>
+            <div class=" col-2 border border-dark p-2">podpis Pracownik</div>
+            <div class=" col-2 border border-dark p-2">Data</div>
+        </div>
+    <div class="row border-top-0 border-dark">
+            <div class=" col-2 border border-dark p-4"> </div>
+            <div class=" col-2 border border-dark p-4"> </div>
+            <div class=" col-2 border border-dark p-4"> </div>
+            <div class=" col-2 border border-dark p-4"> </div>
+        </div>
+
+
+    </div>
+{% endblock %}
