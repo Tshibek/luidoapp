@@ -24,7 +24,7 @@ from . import views
 app_name = 'core'
 urlpatterns = [
     path('', views.home, name='home'),
-    path('example_table/<str:name>', views.example_table, name='example_table'),
+    path('example_table/<int:pk>', views.example_table, name='example_table'),
 
     path('daily', views.daily_hours, name='daily_hours'),
     path('daily/add', views.add_daily_montage,name='montage_post'),

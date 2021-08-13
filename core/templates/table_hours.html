@@ -17,7 +17,7 @@
         </div>
         <div class="row border-top-0 border-dark">
             <div class="col-3 border border-dark p-2">Obecność miesiąc:</div>
-            <div class="col-7 border border-dark p-2">{{ month | month_name|upper }}</div>
+            <div class="col-7 border border-dark p-2"></div>
         </div>
         <div class="row border-top-0 border-dark">
             <div class="col-3 border border-dark p-2">Imie nazwisko:</div>
@@ -34,7 +34,7 @@
         {% for monters in monter %}
 
             <div class="row border-top-0 border-dark">
-                <div class="col-2 border border-dark p-2">{{ monters.date |date:'d' }}</div>
+                <div class="col-2 border border-dark p-2">{{ monters.date }}</div>
                 <div class="col-2 border border-dark p-2">8:12</div>
                 <div class="col-2 border border-dark p-2">11:20</div>
                 <div class="col-2 border border-dark p-2">4:00</div>

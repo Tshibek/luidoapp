@@ -19,8 +19,8 @@ def home(request):
 
 
 @login_required()
-def example_table(request,name):
-    monter = MonterDaily.objects.filter(name__name=name).all()
+def example_table(request,pk):
+    monter = MonterDaily.objects.filter(pk=pk).all()
     num_days = monthrange(2021, 9)[1]  # num_days = 28
     # num_days = str(num_days)
     num_days = range(1,num_days+1)
