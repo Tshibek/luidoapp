@@ -20,17 +20,19 @@ def home(request):
 
 
 @login_required()
-def example_table(request,pk,month):
-    monter = MonterDaily.objects.filter(name__pk=pk,date__month=month).order_by("date__day").all()
+def example_table(request, pk, month):
+    monter = MonterDaily.objects.filter(name__pk=pk, date__month=month).order_by("date__day").all()
     mon = Monter.objects.filter(pk=pk).first()
-    print(mon.sum_daily_hours())
     day_wise_data = {day: tuple(data) for day, data in groupby(monter, key=lambda each: each.date.day)}
     num_days = monthrange(2021, month)[1]
-    num_days = range(1,num_days+1)
+    num_days = range(1, num_days + 1)
     day_wise_data = [day_wise_data.get(day, tuple()) for day in num_days]
-
+    try:
+        x = mon.sum_daily_hours(month=month)
+    except:
+        return redirect('core:monter_list')
     context = locals()
-    return render(request, 'table_hours.html',context)
+    return render(request, 'table_hours.html', context)
 
 
 @login_required()
