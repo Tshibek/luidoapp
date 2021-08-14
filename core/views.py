@@ -11,6 +11,7 @@ from django.utils import timezone
 
 from . import forms
 from .models import Team, Monter, MontagePaid, DailyMontage, MonterDaily, MontageGallery
+from itertools import groupby
 
 
 @login_required()
@@ -19,11 +20,14 @@ def home(request):
 
 
 @login_required()
-def example_table(request,pk):
-    monter = MonterDaily.objects.filter(pk=pk).all()
-    num_days = monthrange(2021, 9)[1]  # num_days = 28
-    # num_days = str(num_days)
+def example_table(request,pk,month):
+    monter = MonterDaily.objects.filter(name__pk=pk,date__month=month).order_by("date__day").all()
+    mon = Monter.objects.filter(pk=pk).first()
+    print(mon.sum_daily_hours())
+    day_wise_data = {day: tuple(data) for day, data in groupby(monter, key=lambda each: each.date.day)}
+    num_days = monthrange(2021, month)[1]
     num_days = range(1,num_days+1)
+    day_wise_data = [day_wise_data.get(day, tuple()) for day in num_days]
 
     context = locals()
     return render(request, 'table_hours.html',context)
@@ -32,6 +36,7 @@ def example_table(request,pk):
 @login_required()
 def monter_data_list(request, pk, name):
     monter = MonterDaily.objects.filter(name=pk, name__name=name).all().order_by('-date')
+
     context = locals()
     return render(request, 'list/monter_data_list.html', context)
 

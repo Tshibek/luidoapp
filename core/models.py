@@ -6,6 +6,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 
 # Create your models here.
+from django.db.models import Sum, Q
 from django.utils import timezone
 from sorl.thumbnail import ImageField
 from PIL import Image
@@ -15,7 +16,7 @@ from . import utils
 
 class Monter(models.Model):
     name = models.CharField(max_length=15)
-    type = models.CharField(choices=utils.TYPE_MONTER, default='MONTAŻ',max_length=15)
+    type = models.CharField(choices=utils.TYPE_MONTER, default='MONTAŻ', max_length=15)
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField()
 
@@ -28,6 +29,34 @@ class Monter(models.Model):
             self.created = timezone.now()
         self.updated = timezone.now()
         return super(Monter, self).save(*args, **kwargs)
+
+    def sum_daily_hours(self):
+        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=8,status='PRACUJE').aggregate(Sum('daily_hours')).values())[
+            0]
+        print(sum)
+        a = sum.total_seconds()
+        h = a // 3600
+        m = (a % 3600) // 60
+        sec = (a % 3600) % 60  # just for reference
+        return "{}h {}m".format(int(h), int(m))
+
+    def check_monthly_hours(self):
+        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=8,status='PRACUJE').aggregate(Sum('daily_hours',filter=Q(status='PRACUJE'))).values())[
+            0]
+        print(sum)
+        a = sum.total_seconds()
+        h = a // 3600
+        m = (a % 3600) // 60
+        sec = (a % 3600) % 60  # just for reference
+        if h <= 160:
+            return None
+        elif h>160:
+            x = (h-160)
+            return "{}h {}m".format(int(x), int(m))
+
+
+
+
 
 
 class Team(models.Model):
@@ -153,4 +182,3 @@ class MontageGallery(models.Model):
         uploadedImage = InMemoryUploadedFile(outputIoStream, 'ImageField', "%s.jpg" % images.name.split('.')[0],
                                              'image/jpeg', sys.getsizeof(outputIoStream), None)
         return uploadedImage
-

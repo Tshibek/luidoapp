@@ -1,7 +1,6 @@
 from django import template
 import calendar
 
-
 register = template.Library()
 
 
@@ -10,3 +9,8 @@ def month_name(month_number):
     month_number = int(month_number)
     with calendar.different_locale("pl_PL"):
         return calendar.month_name[month_number]
+
+
+@register.filter()
+def to_int(value):
+    return int(value)

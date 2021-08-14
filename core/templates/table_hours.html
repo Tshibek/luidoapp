@@ -10,14 +10,38 @@
 <span>PODPIS PRACOWNIKA</span>
 
 {% block content %}
-    <div class="container">
+    <div class="container-fluid">
         <div class="row border-top-0 border-dark">
             <div class="col-3 border border-dark p-2">Firma:</div>
             <div class="col-7 border border-dark p-2">P.P.H.U LUIDO ANNA DĘBSKA</div>
         </div>
         <div class="row border-top-0 border-dark">
             <div class="col-3 border border-dark p-2">Obecność miesiąc:</div>
-            <div class="col-7 border border-dark p-2"></div>
+            {% if month == 1 %}
+                <div class="col-7 border border-dark p-2">STYCZEŃ</div>
+            {% elif month == 2 %}
+                <div class="col-7 border border-dark p-2">LUTY</div>
+            {% elif month == 3 %}
+                <div class="col-7 border border-dark p-2">MARZEC</div>
+            {% elif month == 4 %}
+                <div class="col-7 border border-dark p-2">KWIECIEŃ</div>
+            {% elif month == 5 %}
+                <div class="col-7 border border-dark p-2">MAJ</div>
+            {% elif month == 6 %}
+                <div class="col-7 border border-dark p-2">CZERWIEC</div>
+            {% elif month == 7 %}
+                <div class="col-7 border border-dark p-2">LIPIEC</div>
+            {% elif month == 8 %}
+                <div class="col-7 border border-dark p-2">SIERPIEŃ</div>
+            {% elif month == 9 %}
+                <div class="col-7 border border-dark p-2">WRZESIEŃ</div>
+            {% elif month == 10 %}
+                <div class="col-7 border border-dark p-2">PAŹDZIERNIK</div>
+            {% elif month == 11 %}
+                <div class="col-7 border border-dark p-2">LISTOPAD</div>
+            {% elif month == 12 %}
+                <div class="col-7 border border-dark p-2">GRUDZIEŃ</div>
+            {% endif %}
         </div>
         <div class="row border-top-0 border-dark">
             <div class="col-3 border border-dark p-2">Imie nazwisko:</div>
@@ -30,29 +54,50 @@
             <div class="col-2 border border-dark p-2">suma</div>
             <div class="col-2 border border-dark p-2">podpis pracownika</div>
         </div>
-{#        {% for time in num_days %}#}
-        {% for monters in monter %}
 
+
+        {% for data in day_wise_data %}
             <div class="row border-top-0 border-dark">
-                <div class="col-2 border border-dark p-2">{{ monters.date }}</div>
-                <div class="col-2 border border-dark p-2">8:12</div>
-                <div class="col-2 border border-dark p-2">11:20</div>
-                <div class="col-2 border border-dark p-2">4:00</div>
-                <div class="col-2 border border-dark p-2">xxxx</div>
+                <div class="col-2 border border-dark p-2">{{ forloop.counter }}</div>
+                {% for obj in data %}
+                    {% if obj.status == 'PRACUJE' %}
+                        <div class="col-2 border border-dark p-2">{{ obj.time_start }}</div>
+                        <div class="col-2 border border-dark p-2">{{ obj.end_time }}</div>
+                        <div class="col-2 border border-dark p-2">{{ obj.daily_hours }}</div>
+                    {% elif obj.status == 'L4' %}
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                    {% elif obj.status == 'URLOP' %}
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                    {% endif %}
+
+                {% endfor %}
+                {% if not data %}
+                    <div class="col-2 border border-dark p-2"></div>
+                    <div class="col-2 border border-dark p-2"></div>
+                    <div class="col-2 border border-dark p-2"></div>
+
+                {% endif %}
+                <div class="col-2 border border-dark p-2"></div>
             </div>
         {% endfor %}
-{#        {% endfor %}#}
+
         <div class="row border-top-0 border-dark">
             <div class=" col-2 border border-dark p-2"></div>
-            <div class=" col-4 border border-dark p-2">Łącznie godzin wynikających z etatu</div>
-            <div class=" col-2 border border-dark p-2"></div>
-            <div class=" col-2 border border-dark p-2"></div>
+            <div class=" col-2 border border-dark ">Łącznie godzin wynikających z etatu</div>
+            <div class=" col-2 border border-dark p-3">160h</div>
+            <div class=" col-2 border border-dark p-3">{{ mon.sum_daily_hours}}</div>
+            <div class=" col-2 border border-dark p-3"></div>
         </div>
         <div class="row border-top-0 border-dark">
             <div class=" col-2 border border-dark p-2"></div>
-            <div class=" col-4 border border-dark p-2">Łącznie godzin powyżej z etatu</div>
-            <div class=" col-2 border border-dark p-2"></div>
-            <div class=" col-2 border border-dark p-2"></div>
+            <div class=" col-2 border border-dark ">Łącznie godzin powyżej etatu</div>
+            <div class=" col-2 border border-dark p-3"></div>
+            <div class=" col-2 border border-dark p-3"></div>
+            <div class=" col-2 border border-dark p-3"></div>
         </div>
 
         <div class="row border-top-0 border-dark mt-4">
@@ -61,11 +106,11 @@
             <div class=" col-2 border border-dark p-2">podpis Pracownik</div>
             <div class=" col-2 border border-dark p-2">Data</div>
         </div>
-    <div class="row border-top-0 border-dark">
-            <div class=" col-2 border border-dark p-4"> </div>
-            <div class=" col-2 border border-dark p-4"> </div>
-            <div class=" col-2 border border-dark p-4"> </div>
-            <div class=" col-2 border border-dark p-4"> </div>
+        <div class="row border-top-0 border-dark">
+            <div class=" col-2 border border-dark p-4"></div>
+            <div class=" col-2 border border-dark p-4"></div>
+            <div class=" col-2 border border-dark p-4"></div>
+            <div class=" col-2 border border-dark p-4"></div>
         </div>
 
 
