@@ -20,17 +20,20 @@ def home(request):
 
 
 @login_required()
-def example_table(request, pk, month):
-    monter = MonterDaily.objects.filter(name__pk=pk, date__month=month).order_by("date__day").all()
+def example_table(request, pk, month, year):
+    monter = MonterDaily.objects.filter(name__pk=pk, date__month=month, date__year=year).order_by("date__day").all()
     mon = Monter.objects.filter(pk=pk).first()
     day_wise_data = {day: tuple(data) for day, data in groupby(monter, key=lambda each: each.date.day)}
     num_days = calendar.monthrange(2021, month)[1]
     num_days = range(1, num_days + 1)
     day_wise_data = [day_wise_data.get(day, tuple()) for day in num_days]
+    date = datetime.now()
+    date_year = date.year
 
     try:
-        sum_daily = mon.sum_daily_hours(month=month)
+        sum_daily = mon.sum_daily_hours(month=month, year=date_year)
     except:
+        messages.add_message(request, messages.INFO, 'BRAK DANYCH DLA TEGO MIESIĄCA!')
         return redirect('core:monter_list')
     context = locals()
     return render(request, 'table_hours.html', context)
@@ -39,7 +42,8 @@ def example_table(request, pk, month):
 @login_required()
 def monter_data_list(request, pk, name):
     monter = MonterDaily.objects.filter(name=pk, name__name=name).all().order_by('-date')
-
+    date = datetime.now()
+    date_year = date.year
     context = locals()
     return render(request, 'list/monter_data_list.html', context)
 

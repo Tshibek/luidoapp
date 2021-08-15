@@ -31,8 +31,8 @@ class Monter(models.Model):
         self.updated = timezone.now()
         return super(Monter, self).save(*args, **kwargs)
 
-    def sum_daily_hours(self, month):
-        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, status='PRACUJE').aggregate(
+    def sum_daily_hours(self, month,year):
+        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, status='PRACUJE', date__year=year).aggregate(
             Sum('daily_hours')).values())[
             0]
         print(sum)
@@ -58,7 +58,7 @@ class Monter(models.Model):
         sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, status='PRACUJE').aggregate(
             Sum('daily_hours', filter=Q(status='PRACUJE'))).values())[
             0]
-        print(sum)
+
         a = sum.total_seconds()
         h = a // 3600
         m = (a % 3600) // 60
