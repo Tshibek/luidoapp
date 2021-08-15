@@ -1,3 +1,4 @@
+import calendar
 import sys
 from datetime import datetime
 
@@ -30,18 +31,32 @@ class Monter(models.Model):
         self.updated = timezone.now()
         return super(Monter, self).save(*args, **kwargs)
 
-    def sum_daily_hours(self,month):
-        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month,status='PRACUJE').aggregate(Sum('daily_hours')).values())[
+    def sum_daily_hours(self, month):
+        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, status='PRACUJE').aggregate(
+            Sum('daily_hours')).values())[
             0]
         print(sum)
         a = sum.total_seconds()
         h = a // 3600
         m = (a % 3600) // 60
         sec = (a % 3600) % 60  # just for reference
-        return "{}h {}m".format(int(h), int(m))
 
-    def check_monthly_hours(self,month):
-        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month,status='PRACUJE').aggregate(Sum('daily_hours',filter=Q(status='PRACUJE'))).values())[
+        cal = calendar.Calendar()
+        bussines_day = len([x for x in cal.itermonthdays2(2021, month) if x[0] != 0 and x[1] < 5])
+        working_hours = bussines_day * 8
+        if h <= working_hours:
+            sum_daily = "{}h {}m".format(int(h), int(m))
+        elif h > working_hours:
+            h = h - working_hours
+            sum_daily = "{}h".format(int(working_hours))
+            under_daily = "{}h {}m".format(int(h), int(m))
+
+        context = locals()
+        return context
+
+    def check_monthly_hours(self, month):
+        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, status='PRACUJE').aggregate(
+            Sum('daily_hours', filter=Q(status='PRACUJE'))).values())[
             0]
         print(sum)
         a = sum.total_seconds()
@@ -50,13 +65,9 @@ class Monter(models.Model):
         sec = (a % 3600) % 60  # just for reference
         if h <= 160:
             return None
-        elif h>160:
-            x = (h-160)
+        elif h > 160:
+            x = (h - 160)
             return "{}h {}m".format(int(x), int(m))
-
-
-
-
 
 
 class Team(models.Model):

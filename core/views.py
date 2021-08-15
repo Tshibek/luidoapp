@@ -27,10 +27,9 @@ def example_table(request, pk, month):
     num_days = calendar.monthrange(2021, month)[1]
     num_days = range(1, num_days + 1)
     day_wise_data = [day_wise_data.get(day, tuple()) for day in num_days]
-    cal = calendar.Calendar()
-    bussines_day = len([x for x in cal.itermonthdays2(2021, month) if x[0] != 0 and x[1] < 5])
+
     try:
-        x = mon.sum_daily_hours(month=month)
+        sum_daily = mon.sum_daily_hours(month=month)
     except:
         return redirect('core:monter_list')
     context = locals()
