@@ -16,7 +16,7 @@
                         <tr>
 
                             <th>Status</th>
-                            <th>Montaż</th>
+                            <th>Ekipa</th>
                             <th>Start Pracy</th>
                             <th>Koniec Pracy</th>
                             <th>Suma</th>
@@ -30,7 +30,7 @@
 
 
                                 <td>{{ monters.status }}</td>
-                                <td ><a href="{% url 'core:montage_detail' pk=monters.daily_montage.pk %}" class="a-text" >{{ monters.daily_montage }}</a></td>
+                                <td >{{ monters.daily_montage.team.team }}</td>
                                 <td>{{ monters.time_start }}</td>
                                 <td>{{ monters.end_time }}</td>
                                 <td>{{ monters.daily_hours }}</td>
@@ -44,7 +44,7 @@
                         <tfoot>
                         <tr>
                             <th>Status</th>
-                            <th>Montaż</th>
+                            <th>Ekipa</th>
                             <th>Start Pracy</th>
                             <th>Koniec Pracy</th>
                             <th>Suma</th>
