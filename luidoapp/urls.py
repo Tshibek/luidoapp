@@ -24,7 +24,8 @@ urlpatterns = [
     path('luido_admin_site/', admin.site.urls),
     path('', include('core.urls', namespace='core')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
-    path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
+    path('api/',include('api.urls',namespace='api'))
+
     # re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT})
 ]
 from django.conf.urls.static import static
