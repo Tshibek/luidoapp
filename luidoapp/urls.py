@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.static import serve
-
+from rest_framework.authtoken import views
 from . import settings
 
 urlpatterns = [
@@ -24,7 +24,9 @@ urlpatterns = [
     path('luido_admin_site/', admin.site.urls),
     path('', include('core.urls', namespace='core')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
+    path('api-token-auth/', views.obtain_auth_token, name='api-token-auth'),
     # re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT})
 ]
 from django.conf.urls.static import static
+
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
