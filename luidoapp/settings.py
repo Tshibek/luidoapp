@@ -43,8 +43,6 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
-    'dbbackup',  # django-dbbackup
-    'django_cron',
     'sorl.thumbnail',
     'admin_honeypot',
     'widget_tweaks',
@@ -55,10 +53,6 @@ INSTALLED_APPS = [
 
 ]
 
-CRON_CLASSES = [
-    "core.cron.Backup",
-
-]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -126,16 +120,7 @@ else:
         }
     }
 
-DBBACKUP_CONNECTORS = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env('DATABASE_NAME'),
-        'USER': env('DATABASE_USER'),
-        'PASSWORD': env('DATABASE_PASSWORD'),
-        'HOST': env('DATABASE_HOST'),
-        'PORT': env('DATABASE_PORT'),
-    }
-}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -183,8 +168,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-DBBACKUP_STORAGE_OPTIONS = {'location': '/home/tshibe/backups/luido/'}
 
 if DEBUG is True:
     CSRF_COOKIE_SECURE = False
