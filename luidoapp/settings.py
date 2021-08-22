@@ -40,14 +40,23 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'rest_framework',
     'rest_framework.authtoken',
+    'dbbackup',  # django-dbbackup
+    'django_cron',
     'sorl.thumbnail',
     'admin_honeypot',
     'widget_tweaks',
+
     'accounts',
     'core',
     'api'
+
+]
+
+CRON_CLASSES = [
+    "core.cron.Backup",
 
 ]
 
@@ -163,6 +172,11 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {'location': '/home/tshibe/backups/luido/'}
+
+
+
 if DEBUG is True:
     CSRF_COOKIE_SECURE = False
     SECURE_CONTENT_TYPE_NOSNIFF = False
@@ -181,3 +195,5 @@ else:
     SECURE_HSTS_PRELOAD = True
     SECURE_HSTS_SECONDS = 10000
     X_FRAME_OPTIONS = 'DENY'
+
+
