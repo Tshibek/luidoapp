@@ -126,6 +126,17 @@ else:
         }
     }
 
+DBBACKUP_CONNECTORS = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('DATABASE_USER'),
+        'PASSWORD': env('DATABASE_PASSWORD'),
+        'HOST': env('DATABASE_HOST'),
+        'PORT': env('DATABASE_PORT'),
+    }
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -175,8 +186,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 DBBACKUP_STORAGE_OPTIONS = {'location': '/home/tshibe/backups/luido/'}
 
-
-
 if DEBUG is True:
     CSRF_COOKIE_SECURE = False
     SECURE_CONTENT_TYPE_NOSNIFF = False
@@ -195,5 +204,3 @@ else:
     SECURE_HSTS_PRELOAD = True
     SECURE_HSTS_SECONDS = 10000
     X_FRAME_OPTIONS = 'DENY'
-
-
