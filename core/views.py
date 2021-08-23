@@ -64,7 +64,7 @@ def montage_list(request):
 
 @login_required()
 def montage_team_list(request, name):
-    montages = MontagePaid.objects.filter(montage__team__team=name).all()
+    montages = MontagePaid.objects.filter(montage__team__team=name).all().order_by('-date')
     context = locals()
     return render(request, 'montage.html', context)
 
