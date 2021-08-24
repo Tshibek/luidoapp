@@ -12,10 +12,12 @@ from django.utils import timezone
 from . import forms
 from .models import Team, Monter, MontagePaid, DailyMontage, MonterDaily, MontageGallery
 from itertools import groupby
+from .scrap_year_hours import page
 
 
 @login_required()
 def home(request):
+    print(page.text)
     return render(request, 'index.html')
 
 
@@ -23,15 +25,19 @@ def home(request):
 def example_table(request, pk, month, year):
     monter = MonterDaily.objects.filter(name__pk=pk, date__month=month, date__year=year).order_by("date__day").all()
     mon = Monter.objects.filter(pk=pk).first()
+    date = datetime.now()
     day_wise_data = {day: tuple(data) for day, data in groupby(monter, key=lambda each: each.date.day)}
-    num_days = calendar.monthrange(2021, month)[1]
+    num_days = calendar.monthrange(date.year, month)[1]
     num_days = range(1, num_days + 1)
     day_wise_data = [day_wise_data.get(day, tuple()) for day in num_days]
-    date = datetime.now()
-    date_year = date.year
+
 
     try:
-        sum_daily = mon.sum_daily_hours(month=month, year=date_year)
+        if year == date.year:
+            sum_daily = mon.sum_daily_hours(month=month, year=date.year)
+        else:
+            messages.add_message(request, messages.INFO, 'Dla tego roku nie ma jeszcze danych!!')
+            return redirect('core:monter_list')
     except:
         messages.add_message(request, messages.INFO, 'BRAK DANYCH DLA TEGO MIESIĄCA!')
         return redirect('core:monter_list')

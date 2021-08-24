@@ -31,18 +31,20 @@ class Monter(models.Model):
         self.updated = timezone.now()
         return super(Monter, self).save(*args, **kwargs)
 
-    def sum_daily_hours(self, month,year):
-        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, status='PRACUJE', date__year=year).aggregate(
+    def sum_daily_hours(self, month, year):
+        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, status='PRACUJE',
+                                              date__year=year).aggregate(
             Sum('daily_hours')).values())[
             0]
-        print(sum)
+        # print(sum)
         a = sum.total_seconds()
         h = a // 3600
         m = (a % 3600) // 60
         sec = (a % 3600) % 60  # just for reference
 
         cal = calendar.Calendar()
-        bussines_day = len([x for x in cal.itermonthdays2(2021, month) if x[0] != 0 and x[1] < 5])
+        date= datetime.now()
+        bussines_day = len([x for x in cal.itermonthdays2(date.year, month) if x[0] != 0 and x[1] < 5])
         working_hours = bussines_day * 8
         if h <= working_hours:
             sum_daily = "{}h {}m".format(int(h), int(m))
@@ -54,8 +56,9 @@ class Monter(models.Model):
         context = locals()
         return context
 
-    def check_monthly_hours(self, month):
-        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, status='PRACUJE').aggregate(
+    def check_monthly_hours(self, month, year):
+        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, date__year=year,
+                                              status='PRACUJE').aggregate(
             Sum('daily_hours', filter=Q(status='PRACUJE'))).values())[
             0]
 
