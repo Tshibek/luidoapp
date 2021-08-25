@@ -56,21 +56,6 @@ class Monter(models.Model):
         context = locals()
         return context
 
-    def check_monthly_hours(self, month, year):
-        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, date__year=year,
-                                              status='PRACUJE').aggregate(
-            Sum('daily_hours', filter=Q(status='PRACUJE'))).values())[
-            0]
-
-        a = sum.total_seconds()
-        h = a // 3600
-        m = (a % 3600) // 60
-        sec = (a % 3600) % 60  # just for reference
-        if h <= 160:
-            return None
-        elif h > 160:
-            x = (h - 160)
-            return "{}h {}m".format(int(x), int(m))
 
 
 class Team(models.Model):
