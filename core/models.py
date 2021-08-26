@@ -43,7 +43,7 @@ class Monter(models.Model):
         sec = (a % 3600) % 60  # just for reference
 
         cal = calendar.Calendar()
-        date= datetime.now()
+        date = datetime.now()
         bussines_day = len([x for x in cal.itermonthdays2(date.year, month) if x[0] != 0 and x[1] < 5])
         working_hours = bussines_day * 8
         if h <= working_hours:
@@ -55,7 +55,6 @@ class Monter(models.Model):
 
         context = locals()
         return context
-
 
 
 class Team(models.Model):
