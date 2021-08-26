@@ -96,7 +96,7 @@ class DailyMontage(models.Model):
 class MonterDaily(models.Model):
     name = models.ForeignKey(Monter, on_delete=models.SET_NULL, null=True)
     status = models.CharField(choices=utils.STATUS, max_length=30, default='PRACUJE', null=True, blank=True)
-    daily_montage = models.ForeignKey(DailyMontage, on_delete=models.SET_NULL, null=True)
+    daily_montage = models.ForeignKey(DailyMontage, on_delete=models.SET_NULL, null=True,related_name='daily_montage')
     time_start = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
     daily_hours = models.TimeField(blank=True, null=True)

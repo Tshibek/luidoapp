@@ -8,6 +8,7 @@ from api import views
 app_name = 'api'
 urlpatterns = [
     path('api-token-auth/', auth_views.obtain_auth_token, name='api-token-auth'),
-    path('daily_montage/', views.DailyMontageApiList.as_view(), name='daily_montage_api_list'),
+    # path('daily_montage/', views.DailyMontageApiList.as_view(), name='daily_montage_api_list'),
+    path('example/', views.ModelACreateAPIView.as_view(), name='example'),
     path('list/monter', views.MonterApiList.as_view(), name='monter_api_list')
 ]
