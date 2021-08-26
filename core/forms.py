@@ -29,7 +29,7 @@ class DailyMontageForm(forms.ModelForm):
 MonterDailyFormset = modelformset_factory(
     MonterDaily,
     fields=('name', 'status'),
-    extra=3,
+    extra=4,
 
 )
 

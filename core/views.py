@@ -31,7 +31,6 @@ def example_table(request, pk, month, year):
     num_days = range(1, num_days + 1)
     day_wise_data = [day_wise_data.get(day, tuple()) for day in num_days]
 
-
     try:
         if year == date.year:
             sum_daily = mon.sum_daily_hours(month=month, year=date.year)

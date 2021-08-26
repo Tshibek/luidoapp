@@ -43,7 +43,7 @@ class Monter(models.Model):
         sec = (a % 3600) % 60  # just for reference
 
         cal = calendar.Calendar()
-        date= datetime.now()
+        date = datetime.now()
         bussines_day = len([x for x in cal.itermonthdays2(date.year, month) if x[0] != 0 and x[1] < 5])
         working_hours = bussines_day * 8
         if h <= working_hours:
@@ -55,22 +55,6 @@ class Monter(models.Model):
 
         context = locals()
         return context
-
-    def check_monthly_hours(self, month, year):
-        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, date__year=year,
-                                              status='PRACUJE').aggregate(
-            Sum('daily_hours', filter=Q(status='PRACUJE'))).values())[
-            0]
-
-        a = sum.total_seconds()
-        h = a // 3600
-        m = (a % 3600) // 60
-        sec = (a % 3600) % 60  # just for reference
-        if h <= 160:
-            return None
-        elif h > 160:
-            x = (h - 160)
-            return "{}h {}m".format(int(x), int(m))
 
 
 class Team(models.Model):
