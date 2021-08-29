@@ -165,7 +165,7 @@ def end_daily_montage(request):
     if team:
         montage = MonterDaily.objects.filter(daily_montage=team.pk).all()
         for mon in montage:
-            if mon.status == 'URLOP' or mon.status == 'L4':
+            if mon.status == 'URLOP' or mon.status == 'L4' or mon.status == 'UŻ':
                 start = mon.time_start
                 ax = int(start.strftime('%H')) * 60 + (int(start.strftime('%M')))
                 zx = (ax + 480) / 60

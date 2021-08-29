@@ -11,33 +11,31 @@ class MonterSerializer(serializers.ModelSerializer):
         fields = ['name', 'type']
 
 
-# class DailyMontageSerializer(serializers.ModelSerializer):
-#     user = serializers.PrimaryKeyRelatedField(queryset=User.objects.all())
-#     team = serializers.PrimaryKeyRelatedField(queryset=models.Team.objects.all())
-# 
-#     class Meta:
-#         model = models.DailyMontage
-#         fields = ['user', 'team', 'type', 'day_montage', 'date']
-#         validators = [
-#             UniqueTogetherValidator(
-#                 queryset=models.DailyMontage.objects.all(),
-#                 fields=['team', 'date']
-#             )
-#         ]
-# 
-# 
-# class MonterDailySerializer(serializers.ModelSerializer):
-#     name = serializers.PrimaryKeyRelatedField(queryset=models.Monter.objects.all())
-#     daily_montage = serializers.PrimaryKeyRelatedField(queryset=models.DailyMontage.objects.all())
-#     class Meta:
-#         model = models.MonterDaily
-#         fields = ['name', 'daily_montage', 'status', 'time_start','date']
-#         validators = [
-#             UniqueTogetherValidator(
-#                 queryset=models.MonterDaily.objects.all(),
-#                 fields=['name', 'date']
-#             )
-#         ]
+class DailyMontageSerializer(serializers.ModelSerializer):
+    daily_montage = serializers.RelatedField(many=True, read_only=True)
+
+    class Meta:
+        model = models.DailyMontage
+        fields = ['user', 'team', 'type', 'day_montage', 'date', 'daily_montage']
+        validators = [
+            UniqueTogetherValidator(
+                queryset=models.DailyMontage.objects.all(),
+                fields=['team', 'date']
+            )
+        ]
+
+
+class MonterDailySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.MonterDaily
+        fields = ['name', 'daily_montage', 'status', 'time_start', 'date']
+        depth = 1
+        validators = [
+            UniqueTogetherValidator(
+                queryset=models.MonterDaily.objects.all(),
+                fields=['name', 'date']
+            )
+        ]
 
 
 class DailyMontageCreateSerializer(serializers.ModelSerializer):
@@ -55,7 +53,7 @@ class DailyMontageCreateSerializer(serializers.ModelSerializer):
                 )
             ]
 
-    daily_montage = MonterDailyTempSerializer()
+    daily_montage = MonterDailyTempSerializer(many=True)
 
     class Meta:
         model = models.DailyMontage
