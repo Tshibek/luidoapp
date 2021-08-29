@@ -34,7 +34,7 @@ class Monter(models.Model):
     def sum_daily_hours(self, month, year):
         sum_hours = \
             list(MonterDaily.objects.filter(name__pk=self.pk, date__year=year, date__month=month,
-                                            status__in=['PRACUJE', 'URLOP', 'NŻ']
+                                            status__in=['PRACUJE', 'URLOP', 'UŻ']
                                             ).aggregate(Sum('daily_hours')).values())[0]
 
         a = sum_hours.total_seconds()
