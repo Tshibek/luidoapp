@@ -32,19 +32,18 @@ class Monter(models.Model):
         return super(Monter, self).save(*args, **kwargs)
 
     def sum_daily_hours(self, month, year):
-        sum = list(MonterDaily.objects.filter(name__pk=self.pk, date__month=month, status='PRACUJE',
-                                              date__year=year).aggregate(
-            Sum('daily_hours')).values())[
-            0]
-        # print(sum)
-        a = sum.total_seconds()
+        sum_hours = \
+        list(MonterDaily.objects.filter(name__pk=self.pk, date__year=year, date__month=month, status='PRACUJE',
+                                        ).aggregate(Sum('daily_hours')).values())[0]
+
+        a = sum_hours.total_seconds()
         h = a // 3600
         m = (a % 3600) // 60
         sec = (a % 3600) % 60  # just for reference
 
         cal = calendar.Calendar()
         date = datetime.now()
-        bussines_day = len([x for x in cal.itermonthdays2(date.year, month) if x[0] != 0 and x[1] < 5])
+        bussines_day = len([x for x in cal.itermonthdays2(year, month) if x[0] != 0 and x[1] < 5])
         working_hours = bussines_day * 8
         if h <= working_hours:
             sum_daily = "{}h {}m".format(int(h), int(m))
@@ -55,6 +54,7 @@ class Monter(models.Model):
 
         context = locals()
         return context
+
 
 
 class Team(models.Model):
@@ -96,7 +96,7 @@ class DailyMontage(models.Model):
 class MonterDaily(models.Model):
     name = models.ForeignKey(Monter, on_delete=models.SET_NULL, null=True)
     status = models.CharField(choices=utils.STATUS, max_length=30, default='PRACUJE', null=True, blank=True)
-    daily_montage = models.ForeignKey(DailyMontage, on_delete=models.SET_NULL, null=True,related_name='daily_montage')
+    daily_montage = models.ForeignKey(DailyMontage, on_delete=models.SET_NULL, null=True, related_name='daily_montage')
     time_start = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
     daily_hours = models.TimeField(blank=True, null=True)

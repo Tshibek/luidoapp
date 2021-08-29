@@ -17,7 +17,7 @@ from .scrap_year_hours import page
 
 @login_required()
 def home(request):
-    print(page.text)
+    # print(page.text)
     return render(request, 'index.html')
 
 
@@ -37,8 +37,8 @@ def example_table(request, pk, month, year):
         else:
             messages.add_message(request, messages.INFO, 'Dla tego roku nie ma jeszcze danych!!')
             return redirect('core:monter_list')
-    except:
-        messages.add_message(request, messages.INFO, 'BRAK DANYCH DLA TEGO MIESIĄCA!')
+    except Exception as e:
+        messages.add_message(request, messages.INFO, e)
         return redirect('core:monter_list')
     context = locals()
     return render(request, 'table_hours.html', context)
