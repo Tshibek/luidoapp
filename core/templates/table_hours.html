@@ -72,6 +72,14 @@
                         <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
                         <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
                         <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                    {% elif obj.status == 'NŻ' %}
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                     {% elif obj.status == 'NB' %}
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
+                        <div class="col-2 border border-dark p-2">{{ obj.status }}</div>
                     {% endif %}
 
                 {% endfor %}
