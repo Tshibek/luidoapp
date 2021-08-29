@@ -1,7 +1,9 @@
 STATUS = (
     ('PRACUJE', 'PRACUJE'),
     ('L4', 'L4'),
-    ('URLOP', 'URLOP')
+    ('URLOP', 'URLOP'),
+    ('UŻ', 'UŻ'),
+    ('NB', 'NB')
 )
 TYPE = (
     ('Montaż', 'Montaż'),
