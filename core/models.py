@@ -33,8 +33,8 @@ class Monter(models.Model):
 
     def sum_daily_hours(self, month, year):
         sum_hours = \
-        list(MonterDaily.objects.filter(name__pk=self.pk, date__year=year, date__month=month, status='PRACUJE',
-                                        ).aggregate(Sum('daily_hours')).values())[0]
+            list(MonterDaily.objects.filter(name__pk=self.pk, date__year=year, date__month=month,
+                                            ).filter(status='PRACUJE').filter(status='URLOP').filter(status='NŻ').aggregate(Sum('daily_hours')).values())[0]
 
         a = sum_hours.total_seconds()
         h = a // 3600
@@ -54,7 +54,6 @@ class Monter(models.Model):
 
         context = locals()
         return context
-
 
 
 class Team(models.Model):
