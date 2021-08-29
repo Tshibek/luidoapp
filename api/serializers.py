@@ -40,12 +40,8 @@ class MonterSerializer(serializers.ModelSerializer):
 #         ]
 
 
-class ModelACreateSerializer(serializers.ModelSerializer):
-    """
-    Serializer to Add ModelA together with ModelB
-    """
-
-    class ModelBTempSerializer(serializers.ModelSerializer):
+class DailyMontageCreateSerializer(serializers.ModelSerializer):
+    class MonterDailyTempSerializer(serializers.ModelSerializer):
         class Meta:
             model = models.MonterDaily
             # 'model_a_field' is a FK which will be assigned after creation of 'ModelA' model entry
@@ -59,7 +55,7 @@ class ModelACreateSerializer(serializers.ModelSerializer):
                 )
             ]
 
-    daily_montage = ModelBTempSerializer()
+    daily_montage = MonterDailyTempSerializer()
 
     class Meta:
         model = models.DailyMontage
@@ -74,7 +70,8 @@ class ModelACreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         model_b_data = validated_data.pop('daily_montage')
         model_a_instance = models.DailyMontage.objects.create(**validated_data)
+
         models.MonterDaily.objects.create(daily_montage=model_a_instance,
                                           **model_b_data)
-        return model_a_instance
 
+        return model_a_instance

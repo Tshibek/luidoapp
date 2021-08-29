@@ -53,10 +53,7 @@ class MonterApiList(APIView):
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class ModelACreateAPIView(generics.CreateAPIView):
-    """
-    Create a new ModelA entry with ModelB entry
-    """
+class DailyMontageCreateAPIView(generics.CreateAPIView):
     queryset = models.MonterDaily.objects.all()
-    serializer_class = serializers.ModelACreateSerializer
+    serializer_class = serializers.DailyMontageCreateSerializer
 
