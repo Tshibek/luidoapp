@@ -104,6 +104,10 @@ class MonterDaily(models.Model):
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField()
 
+    class Meta:
+        get_latest_by = '-date'
+        ordering = ['-date']
+
     def __str__(self):
         return '{},{}'.format(self.name, self.status)
 
