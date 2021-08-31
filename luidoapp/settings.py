@@ -49,10 +49,10 @@ INSTALLED_APPS = [
 
     'accounts',
     'core',
-    'api'
+    'api',
+    'todo'
 
 ]
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -126,8 +126,6 @@ else:
         }
     }
 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -173,7 +171,6 @@ else:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 if DEBUG is True:
     CSRF_COOKIE_SECURE = False

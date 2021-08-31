@@ -1,0 +1,7 @@
+STATUS_TODO = (
+    ('ZGŁOSZONA', 'ZGŁOSZONA'),
+    ('KONTAKT', 'KONTAKT'),
+    ('UMÓWIONA', 'UMÓWIONA'),
+    ('WYKONANA', 'WYKONANA'),
+    ('NIEWYKONANA', 'NIEWYKONANA')
+)
