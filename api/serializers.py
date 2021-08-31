@@ -68,8 +68,7 @@ class DailyMontageCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         model_b_data = validated_data.pop('daily_montage')
         model_a_instance = models.DailyMontage.objects.create(**validated_data)
-
-        models.MonterDaily.objects.create(daily_montage=model_a_instance,
-                                          **model_b_data)
-
+        for model_b in model_b_data:
+            models.MonterDaily.objects.create(daily_montage=model_a_instance,
+                                              **model_b)
         return model_a_instance
