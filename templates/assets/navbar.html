@@ -4,7 +4,7 @@
     <div class="container-fluid">
 
         <!-- Navbar brand -->
-            <a class="navbar-brand" href="{% url 'core:home' %}" style="color:#C9ADA7!important;">LuidoAPP</a>
+        <a class="navbar-brand" href="{% url 'core:home' %}" style="color:#C9ADA7!important;">LuidoAPP</a>
 
         <!-- Toggle button -->
         <button class="navbar-toggler" type="button" data-mdb-toggle="collapse"
@@ -15,49 +15,53 @@
 
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        {% if request.user.is_authenticated %}
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            {% if request.user.is_authenticated %}
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
-                <!-- Link -->
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core:daily_hours' %}">Godziny</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core:montage_list' %}">Montaże</a>
-                </li>
-                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core:monter_list' %}">Montażyści</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core:team_list' %}">Ekipy</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Statystyki</a>
-                </li>
+                    <!-- Link -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:daily_hours' %}">Godziny</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:montage_list' %}">Montaże</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:monter_list' %}">Montażyści</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:team_list' %}">Ekipy</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'todo:todo_list' %}">Reklamacje</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Statystyki</a>
+                    </li>
 
-            </ul>
-{% endif %}
+                </ul>
+            {% endif %}
             <!-- Icons -->
             <ul class="navbar-nav d-flex flex-row me-1 m-auto">
-            {% if request.user.is_authenticated %}
-                <li class="nav-item me-3 me-lg-0 ">
-                    <a class="nav-link font-weight-bold" href="{% url 'accounts:profile' username=request.user.username %}">{{request.user.username|upper}}</a>
-                </li>
-            {% else %}
-                <li class="nav-item me-3 me-lg-0">
-                    <a class="nav-link" href="#">Zaloguj się</a>
-                </li>
+                {% if request.user.is_authenticated %}
+                    <li class="nav-item me-3 me-lg-0 ">
+                        <a class="nav-link font-weight-bold"
+                           href="{% url 'accounts:profile' username=request.user.username %}">{{ request.user.username|upper }}</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link" href="#">Zaloguj się</a>
+                    </li>
                 {% endif %}
                 {% if request.user.is_superuser or request.user.is_staff %}
-                <li class="nav-item me-3 me-lg-0">
-                    <a class="nav-link" href="{% url 'admin:index' %}">PA</a>
-                </li>
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link" href="{% url 'admin:index' %}">PA</a>
+                    </li>
                 {% endif %}
                 {% if request.user.is_authenticated %}
-                <li class="nav-item me-3 me-lg-0">
-                    <a class="nav-link" href="{% url 'accounts:logout' %}">Wyloguj</a>
-                </li>
-            {% endif %}
+                    <li class="nav-item me-3 me-lg-0">
+                        <a class="nav-link" href="{% url 'accounts:logout' %}">Wyloguj</a>
+                    </li>
+                {% endif %}
             </ul>
 
         </div>

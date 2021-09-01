@@ -24,7 +24,8 @@ urlpatterns = [
     path('luido_admin_site/', admin.site.urls),
     path('', include('core.urls', namespace='core')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
-    path('api/',include('api.urls',namespace='api'))
+    path('todo',include('todo.urls',namespace='todo')),
+    path('api/',include('api.urls',namespace='api')),
 
     # re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT})
 ]
