@@ -10,7 +10,7 @@ from django.db import models
 from django.db.models import Sum, Q
 from django.utils import timezone
 from sorl.thumbnail import ImageField
-from PIL import Image
+from PIL import Image, ImageOps
 from io import BytesIO
 from . import utils
 
@@ -177,9 +177,10 @@ class MontageGallery(models.Model):
 
     def compressImage(self, images):
         imageTemproary = Image.open(images)
+        imageTemproary = images.convert('RGB')
+        imageTemproary = ImageOps.exif_transpose(imageTemproary)
         outputIoStream = BytesIO()
-        imageTemproaryResized = imageTemproary.resize((2760, 1312))
-        imageTemproary.save(outputIoStream, format='JPEG', quality=60)
+        imageTemproary.save(outputIoStream, format='JPEG', quality=80)
         outputIoStream.seek(0)
         uploadedImage = InMemoryUploadedFile(outputIoStream, 'ImageField', "%s.jpg" % images.name.split('.')[0],
                                              'image/jpeg', sys.getsizeof(outputIoStream), None)
