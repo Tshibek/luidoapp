@@ -7,7 +7,7 @@
         </div>
         <div class="row photos">
             {% for image in montage.get_images %}
-            <div class="col-sm-6 col-md-4 col-lg-3 item"><a href="{{ MEDIA_URL }}{{ image.images }}" data-lightbox="photos"><img class="img-fluid" src="{{ MEDIA_URL }}{{ image.images }}" alt="{{ forloop.counter }}" width="330" height="330"></a></div>
+            <div class="col-sm-6 col-md-4 col-lg-3 item pb-1 mb-1"><a href="{{ MEDIA_URL }}{{ image.images }}" data-lightbox="photos"><img class="img-fluid" src="{{ MEDIA_URL }}{{ image.images }}" alt="{{ forloop.counter }}" width="330" height="330"></a></div>
            {% endfor %}
         </div>
     </div>
