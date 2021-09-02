@@ -177,8 +177,6 @@ class MontageGallery(models.Model):
 
     def compressImage(self, images):
         imageTemproary = Image.open(images)
-        imageTemproary = images.convert('RGB')
-        imageTemproary = ImageOps.exif_transpose(imageTemproary)
         outputIoStream = BytesIO()
         imageTemproary.save(outputIoStream, format='JPEG', quality=80)
         outputIoStream.seek(0)
