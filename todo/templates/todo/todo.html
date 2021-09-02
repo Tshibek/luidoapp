@@ -3,10 +3,23 @@
 {% block content %}
 <div class="container-fluid">
 <div class="row">
-    <div class="col-lg-3 bg-danger">Zgłoszona</div>
+    <div class="col-lg-3 bg-danger">
+        <div class="text-center">Zgłoszona</div>
+        <div class="row">
+            {% for todo in todos.status_reported %}
+            <div class="col-12">
+                <div class="bg-info">{{ todo.title }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
     <div class="col-lg-3 bg-info">Umówiona</div>
     <div class="col-lg-3 bg-warning">W trakcie</div>
     <div class="col-lg-3 bg-success">Wykonana</div>
 </div>
+
+
+
+
 </div>
 {% endblock %}
