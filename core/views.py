@@ -20,6 +20,8 @@ def home(request):
     return render(request, 'index.html')
 
 
+
+
 @login_required()
 def example_table(request, pk, month, year):
     monter = MonterDaily.objects.filter(name__pk=pk, date__month=month, date__year=year).order_by("date__day").all()

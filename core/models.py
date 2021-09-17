@@ -47,11 +47,11 @@ class Monter(models.Model):
         date = datetime.now()
         bussines_day = len([x for x in cal.itermonthdays2(year, month) if x[0] != 0 and x[1] < 5])
         working_hours = bussines_day * 8
-        if h <= scrap_monthly_hours(month,year):
+        if h <= scrap_monthly_hours(month, year):
             sum_daily = "{}h {}m".format(int(h), int(m))
-        elif h > scrap_monthly_hours(month,year):
-            h = h - scrap_monthly_hours(month,year)
-            sum_daily = "{}h".format(scrap_monthly_hours(month,year))
+        elif h > scrap_monthly_hours(month, year):
+            h = h - scrap_monthly_hours(month, year)
+            sum_daily = "{}h".format(scrap_monthly_hours(month, year))
             under_daily = "{}h {}m".format(int(h), int(m))
 
         context = locals()
@@ -123,6 +123,10 @@ class MonterDaily(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['name', 'date'], name='name of monter work')
         ]
+
+
+def get_all_team():
+    return Team.objects.all()
 
 
 class MontagePaid(models.Model):
