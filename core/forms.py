@@ -21,10 +21,6 @@ class DailyMontageForm(forms.ModelForm):
         fields = ('team', 'type', 'day_montage')
 
 
-# class MonterDailyForm(forms.ModelForm):
-#     class Meta:
-#         model = MonterDaily
-#         fields = ('name', 'status')
 
 MonterDailyFormset = modelformset_factory(
     MonterDaily,

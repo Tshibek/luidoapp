@@ -10,9 +10,10 @@ from django.db import models
 from django.db.models import Sum, Q
 from django.utils import timezone
 from sorl.thumbnail import ImageField
-from PIL import Image
+from PIL import Image, ImageOps
 from io import BytesIO
 from . import utils
+from .scrap_year_hours import scrap_monthly_hours
 
 
 class Monter(models.Model):
@@ -46,11 +47,11 @@ class Monter(models.Model):
         date = datetime.now()
         bussines_day = len([x for x in cal.itermonthdays2(year, month) if x[0] != 0 and x[1] < 5])
         working_hours = bussines_day * 8
-        if h <= working_hours:
+        if h <= scrap_monthly_hours(month, year):
             sum_daily = "{}h {}m".format(int(h), int(m))
-        elif h > working_hours:
-            h = h - working_hours
-            sum_daily = "{}h".format(int(working_hours))
+        elif h > scrap_monthly_hours(month, year):
+            h = h - scrap_monthly_hours(month, year)
+            sum_daily = "{}h".format(scrap_monthly_hours(month, year))
             under_daily = "{}h {}m".format(int(h), int(m))
 
         context = locals()
@@ -104,6 +105,10 @@ class MonterDaily(models.Model):
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField()
 
+    class Meta:
+        get_latest_by = '-date'
+        ordering = ['-date']
+
     def __str__(self):
         return '{},{}'.format(self.name, self.status)
 
@@ -118,6 +123,10 @@ class MonterDaily(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['name', 'date'], name='name of monter work')
         ]
+
+
+def get_all_team():
+    return Team.objects.all()
 
 
 class MontagePaid(models.Model):
@@ -174,8 +183,7 @@ class MontageGallery(models.Model):
     def compressImage(self, images):
         imageTemproary = Image.open(images)
         outputIoStream = BytesIO()
-        imageTemproaryResized = imageTemproary.resize((2760, 1312))
-        imageTemproary.save(outputIoStream, format='JPEG', quality=60)
+        imageTemproary.save(outputIoStream, format='JPEG', quality=80)
         outputIoStream.seek(0)
         uploadedImage = InMemoryUploadedFile(outputIoStream, 'ImageField', "%s.jpg" % images.name.split('.')[0],
                                              'image/jpeg', sys.getsizeof(outputIoStream), None)

@@ -12,13 +12,14 @@ from django.utils import timezone
 from . import forms
 from .models import Team, Monter, MontagePaid, DailyMontage, MonterDaily, MontageGallery
 from itertools import groupby
-from .scrap_year_hours import page
 
 
 @login_required()
 def home(request):
     # print(page.text)
     return render(request, 'index.html')
+
+
 
 
 @login_required()

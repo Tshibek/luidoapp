@@ -8,7 +8,13 @@ from core import models
 class MonterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Monter
-        fields = ['name', 'type']
+        fields = ['name', 'type','id']
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Team
+        exclude = ['created',]
 
 
 class DailyMontageSerializer(serializers.ModelSerializer):
@@ -28,7 +34,7 @@ class DailyMontageSerializer(serializers.ModelSerializer):
 class MonterDailySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.MonterDaily
-        fields = ['name', 'daily_montage', 'status', 'time_start', 'date']
+        exclude = ['created', 'updated', 'id']
         depth = 1
         validators = [
             UniqueTogetherValidator(
@@ -42,9 +48,6 @@ class DailyMontageCreateSerializer(serializers.ModelSerializer):
     class MonterDailyTempSerializer(serializers.ModelSerializer):
         class Meta:
             model = models.MonterDaily
-            # 'model_a_field' is a FK which will be assigned after creation of 'ModelA' model entry
-            # First entry of ModelB will have (default) fieldB3 value as True, rest as False
-            # 'field4' will be derived from its counterpart from the 'Product' model attribute
             exclude = ['daily_montage', 'created', 'updated']
             validators = [
                 UniqueTogetherValidator(

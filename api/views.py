@@ -22,6 +22,15 @@ class MonterApiList(APIView):
         return Response(serializer.data)
 
 
+class TeamApiList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, format=None):
+        team = models.Team.objects.all()
+        serializer = serializers.TeamSerializer(team, many=True)
+        return Response(serializer.data)
+
+
 class MonterDailyApiList(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -34,7 +43,3 @@ class MonterDailyApiList(APIView):
 class DailyMontageCreateAPIView(generics.CreateAPIView):
     queryset = models.MonterDaily.objects.all()
     serializer_class = serializers.DailyMontageCreateSerializer
-
-
-
-
