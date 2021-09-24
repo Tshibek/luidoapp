@@ -2,9 +2,15 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Count, F, Sum, Avg
 from django.db.models.functions import ExtractYear, ExtractMonth
 from django.http import JsonResponse
+from django.shortcuts import render
 
-from core.models import MontagePaid, get_all_team
+from core.models import MontagePaid, get_all_team, Team
 from .charts import months, colorPrimary, colorSuccess, colorDanger, generate_color_palette, get_year_dict
+
+
+@login_required()
+def stats(request):
+    return render(request, 'statistics.html')
 
 
 @login_required()
@@ -12,9 +18,11 @@ def get_filter_options(request):
     grouped_purchases = MontagePaid.objects.annotate(year=ExtractYear('date')).values('year').order_by(
         '-year').distinct()
     options = [purchase['year'] for purchase in grouped_purchases]
-
+    name_team = Team.objects.all()
+    teams = [team for team in name_team]
     return JsonResponse({
         'options': options,
+        'teams': teams,
     })
 
 
@@ -42,26 +50,6 @@ def get_sales_chart(request, year, team):
             }]
         },
     })
-
-    @login_required()
-    def payment_success_chart(request, year):
-        purchases = MontagePaid.objects.filter(date__year=year)
-
-        return JsonResponse({
-            'title': f'Payment success rate in {year}',
-            'data': {
-                'labels': ['Successful', 'Unsuccessful'],
-                'datasets': [{
-                    'label': 'Amount ($)',
-                    'backgroundColor': [colorSuccess, colorDanger],
-                    'borderColor': [colorSuccess, colorDanger],
-                    'data': [
-                        purchases.count(),
-
-                    ],
-                }]
-            },
-        })
 
     # @login_required()
     # def payment_method_chart(request, year):
