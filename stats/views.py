@@ -1,8 +1,12 @@
+import datetime
+
+from chartjs.views.lines import BaseLineChartView
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, F, Sum, Avg
 from django.db.models.functions import ExtractYear, ExtractMonth
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.views.generic import TemplateView
 
 from core.models import MontagePaid, get_all_team, Team
 from .charts import months, colorPrimary, colorSuccess, colorDanger, generate_color_palette, get_year_dict
@@ -39,11 +43,11 @@ def get_sales_chart(request, year, team):
         sales_dict[months[group['month'] - 1]] = round(group['average'], 2)
 
     return JsonResponse({
-        'title': f'Zarobek in {year}',
+        'title': f'Zarobek w {year}',
         'data': {
             'labels': list(sales_dict.keys()),
             'datasets': [{
-                'label': 'Amount ($)',
+                'label': 'Zarobek (PLN)',
                 'backgroundColor': colorPrimary,
                 'borderColor': colorPrimary,
                 'data': list(sales_dict.values()),
@@ -77,3 +81,30 @@ def get_sales_chart(request, year, team):
     #             }]
     #         },
     #     })
+
+
+class BarChartJSONView(BaseLineChartView):
+    def get_labels(self):
+        print(months)
+        return months
+
+    def get_providers(self):
+        teams = Team.objects.all()
+        team = [team.team for team in teams]
+        return team
+
+    def get_data(self):
+        team = [team for team in self.get_providers()]
+        year = datetime.datetime.now()
+
+        purchases = MontagePaid.objects.filter(date__year=year.year, montage__team__team=team)
+        grouped_purchases = purchases.annotate(month=ExtractMonth('date')) \
+            .values('month').annotate(average=Sum('paid')).values('month', 'average').order_by(
+            'month')
+        print(grouped_purchases)
+
+        return team
+
+
+bar_chart = TemplateView.as_view(template_name='statistics.html')
+bar_chart_json = BarChartJSONView.as_view()

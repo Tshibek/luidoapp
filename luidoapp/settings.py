@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'admin_honeypot',
     'widget_tweaks',
+    'chartjs',
 
     'accounts',
     'stats',
