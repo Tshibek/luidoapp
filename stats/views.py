@@ -85,7 +85,7 @@ def get_sales_chart(request, year, team):
 
 class BarChartJSONView(BaseLineChartView):
     def get_labels(self):
-        print(months)
+        # print(months)
         return months
 
     def get_providers(self):
@@ -94,16 +94,15 @@ class BarChartJSONView(BaseLineChartView):
         return team
 
     def get_data(self):
-        team = [team for team in self.get_providers()]
+        teams = Team.objects.all()
+        x = []
+        # team = [team.salary() for team in teams]
         year = datetime.datetime.now()
-
-        purchases = MontagePaid.objects.filter(date__year=year.year, montage__team__team=team)
-        grouped_purchases = purchases.annotate(month=ExtractMonth('date')) \
-            .values('month').annotate(average=Sum('paid')).values('month', 'average').order_by(
-            'month')
-        print(grouped_purchases)
-
-        return team
+        for team in teams:
+            print()
+            x.extend(list(team.salary()))
+        print(x)
+        return x
 
 
 bar_chart = TemplateView.as_view(template_name='statistics.html')
