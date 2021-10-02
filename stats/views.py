@@ -1,5 +1,8 @@
 import datetime
+from itertools import islice
+from random import shuffle
 
+from chartjs.colors import next_color, COLORS
 from chartjs.views.lines import BaseLineChartView
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count, F, Sum, Avg
@@ -83,7 +86,23 @@ def get_sales_chart(request, year, team):
     #     })
 
 
+class ColorsView(TemplateView):
+    template_name = "colors.html"
+
+    def get_context_data(self, **kwargs):
+        data = super(ColorsView, self).get_context_data(**kwargs)
+        data["colors"] = islice(next_color(), 0, 50)
+        return data
+
+
 class BarChartJSONView(BaseLineChartView):
+    def get_colors(self):
+        """Return a new shuffle list of color so we change the color
+        each time."""
+        colors = COLORS[:]
+        shuffle(colors)
+        return next_color(colors)
+
     def get_labels(self):
         # print(months)
         return months
@@ -105,5 +124,37 @@ class BarChartJSONView(BaseLineChartView):
         return x
 
 
+class BarChartCountJSONView(BaseLineChartView):
+    def get_colors(self):
+        """Return a new shuffle list of color so we change the color
+        each time."""
+        colors = COLORS[:]
+        shuffle(colors)
+        return next_color(colors)
+
+    def get_labels(self):
+        # print(months)
+        return months
+
+    def get_providers(self):
+        teams = Team.objects.all()
+        team = [team.team for team in teams]
+        return team
+
+    def get_data(self):
+        teams = Team.objects.all()
+        x = []
+        # team = [team.salary() for team in teams]
+        year = datetime.datetime.now()
+        for team in teams:
+            print()
+            x.extend(list(team.count_montage()))
+        print(x)
+        return x
+
+
+colors = ColorsView.as_view()
 bar_chart = TemplateView.as_view(template_name='statistics.html')
+count_bar_chart = TemplateView.as_view(template_name='statistics.html')
+count_bar_chart_json = BarChartCountJSONView.as_view()
 bar_chart_json = BarChartJSONView.as_view()
