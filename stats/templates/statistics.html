@@ -1,17 +1,56 @@
 {% extends 'assets/layout.html' %}
 {% block content %}
-    <div class="container" style="width: 500px;height: 500px;">
-         <canvas id="prices" width="500" height="400"></canvas>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="p-3">
+                    <h4 class="text-center">Suma zarobków (PLN) z Montażu</h4>
+                </div>
+                <canvas id="prices"></canvas>
+            </div>
+            <div class="col-md-6 col-sm-12">
+                <div class="p-3">
+                    <h4 class="text-center">Suma Montaży na dany miesiąc</h4>
+                </div>
+                <canvas id="prices2"></canvas>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
 {% block extra_javascript %}
-   <script type="text/javascript">
-            $.get('{% url "stats:bar_chart_json" %}', function(data) {
-                var ctx = $("#prices").get(0).getContext("2d");
-                new Chart(ctx, {
-                    type: 'bar', data: data
-                });
+    <script type="text/javascript">
+        $.get('{% url "stats:bar_chart_json" %}', function (data) {
+            var ctx = $("#prices").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    }
+                },
             });
-        </script>
+        });
+    </script>
+    <script type="text/javascript">
+        $.get('{% url "stats:bar_count_chart_json" %}', function (data) {
+            var ctx = $("#prices2").get(0).getContext("2d");
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                    }
+                },
+            });
+        });
+    </script>
 {% endblock %}

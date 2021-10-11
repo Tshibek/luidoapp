@@ -7,11 +7,14 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.db import models
 
 # Create your models here.
-from django.db.models import Sum, Q
+from django.db.models import Sum, Q, Count
+from django.db.models.functions import ExtractMonth
 from django.utils import timezone
 from sorl.thumbnail import ImageField
 from PIL import Image, ImageOps
 from io import BytesIO
+
+from stats.charts import get_year_dict, months
 from . import utils
 from .scrap_year_hours import scrap_monthly_hours
 
@@ -64,6 +67,30 @@ class Team(models.Model):
 
     def __str__(self):
         return self.team
+
+    def salary(self):
+        year = datetime.now()
+        purchases = MontagePaid.objects.filter(date__year=year.year, montage__team__team=self.team)
+        grouped_purchases = purchases.annotate(month=ExtractMonth('date')) \
+            .values('month').annotate(average=Sum('paid')).values('month', 'average').order_by(
+            'month')
+        sales_dict = get_year_dict()
+
+        for group in grouped_purchases:
+            sales_dict[months[group['month'] - 1]] = round(group['average'], 2)
+        return list(sales_dict.values()),
+
+    def count_montage(self):
+        year = datetime.now()
+        purchases = MontagePaid.objects.filter(date__year=year.year, montage__team__team=self.team)
+        grouped_purchases = purchases.annotate(month=ExtractMonth('date')) \
+            .values('month').annotate(average=Count('id')).values('month', 'average').order_by(
+            'month')
+        sales_dict = get_year_dict()
+
+        for group in grouped_purchases:
+            sales_dict[months[group['month'] - 1]] = round(group['average'], 2)
+        return list(sales_dict.values()),
 
 
 class DailyMontage(models.Model):
