@@ -23,6 +23,7 @@ class DailyMontageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.DailyMontage
         fields = ['user', 'team', 'type', 'day_montage', 'date', 'daily_montage']
+        depth = 1
         validators = [
             UniqueTogetherValidator(
                 queryset=models.DailyMontage.objects.all(),

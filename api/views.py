@@ -33,6 +33,7 @@ class TeamApiList(APIView):
 
 class MonterDailyApiList(APIView):
     permission_classes = [IsAuthenticated]
+    ordering = ['-date']
 
     def get(self, format=None):
         monter_daily = models.MonterDaily.objects.all()
