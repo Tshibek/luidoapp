@@ -10,12 +10,7 @@ class DailyMontageToday(serializers.ModelSerializer):
         model = models.DailyMontage
         depth = 1
         fields = ['id', 'team']
-        validators = [
-            UniqueTogetherValidator(
-                queryset=models.DailyMontage.objects.all(),
-                fields=['team', 'date']
-            )
-        ]
+
 
 class MonterSerializer(serializers.ModelSerializer):
     class Meta:

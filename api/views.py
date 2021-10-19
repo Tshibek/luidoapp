@@ -28,7 +28,7 @@ class DailyMontageToday(APIView):
 
     def get(self, format=None):
         monter = models.DailyMontage.objects.filter(date=timezone.localdate()).first()
-        serializer = serializers.DailyMontageToday(monter, many=True)
+        serializer = serializers.DailyMontageToday(monter)
         return Response(serializer.data)
 
 
