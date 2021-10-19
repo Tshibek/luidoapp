@@ -9,7 +9,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.utils import timezone
 from core import models
 from api import serializers
 
@@ -20,6 +20,15 @@ class MonterApiList(APIView):
     def get(self, format=None):
         monter = models.Monter.objects.all()
         serializer = serializers.MonterSerializer(monter, many=True)
+        return Response(serializer.data)
+
+
+class DailyMontageToday(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, format=None):
+        monter = models.DailyMontage.objects.filter(user=self.request.user, date=timezone.localdate()).first()
+        serializer = serializers.DailyMontageToday(monter, many=True)
         return Response(serializer.data)
 
 
@@ -48,3 +57,8 @@ class MonterDailyApiList(APIView):
 class DailyMontageCreateAPIView(generics.CreateAPIView):
     queryset = models.MonterDaily.objects.all()
     serializer_class = serializers.DailyMontageCreateSerializer
+
+
+class MontagePaidCreateApiView(generics.CreateAPIView):
+    queryset = models.MontagePaid.objects.all()
+    serializers_class = serializers.MontagePaidCreateSerializer

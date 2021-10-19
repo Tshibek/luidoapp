@@ -10,6 +10,7 @@ urlpatterns = [
     path('lista/team',views.TeamApiList.as_view(),name='team_api_list'),
     path('lista/monter', views.MonterApiList.as_view(), name='monter_api_list'),
     path('monter_daily', views.MonterDailyApiList.as_view(), name='monter_daily_api_list'),
+    path('get_montage_today', views.DailyMontageToday.as_view(), name='montage_api_get_today'),
     path('daily', views.DailyMontageCreateAPIView.as_view(), name='daily_api_post'),
 
 ]

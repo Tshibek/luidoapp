@@ -5,16 +5,28 @@ from rest_framework.validators import UniqueTogetherValidator
 from core import models
 
 
+class DailyMontageToday(serializers.ModelSerializer):
+    class Meta:
+        model = models.DailyMontage
+        depth = 1
+        fields = ['id', 'team']
+        validators = [
+            UniqueTogetherValidator(
+                queryset=models.DailyMontage.objects.all(),
+                fields=['team', 'date']
+            )
+        ]
+
 class MonterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Monter
-        fields = ['name', 'type','id']
+        fields = ['name', 'type', 'id']
 
 
 class TeamSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Team
-        exclude = ['created',]
+        exclude = ['created', ]
 
 
 class DailyMontageSerializer(serializers.ModelSerializer):
@@ -76,3 +88,15 @@ class DailyMontageCreateSerializer(serializers.ModelSerializer):
             models.MonterDaily.objects.create(daily_montage=model_a_instance,
                                               **model_b)
         return model_a_instance
+
+
+class MontagePaidCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.MonterDaily
+        exclude = ['created', 'updated', 'id']
+        validators = [
+            UniqueTogetherValidator(
+                queryset=models.MonterDaily.objects.all(),
+                fields=['montage', 'date']
+            )
+        ]
