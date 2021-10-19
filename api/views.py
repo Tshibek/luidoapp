@@ -27,7 +27,7 @@ class DailyMontageToday(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, format=None):
-        monter = models.DailyMontage.objects.filter(date=timezone.localdate()).first()
+        monter = models.DailyMontage.objects.filter(user=self.request.user, date=timezone.localdate()).first()
         serializer = serializers.DailyMontageToday(monter)
         return Response(serializer.data)
 
