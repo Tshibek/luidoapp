@@ -137,7 +137,7 @@ class MonterDaily(models.Model):
         ordering = ['-date']
 
     def __str__(self):
-        return '{},{}'.format(self.name, self.status)
+        return '{},{} - {} - {} - {}'.format(self.name, self.status, self.date, self.time_start,self.end_time)
 
     def save(self, *args, **kwargs):
         """ On save, update timestamps """

@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
+from rest_framework import filters
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status, generics
@@ -33,6 +34,9 @@ class TeamApiList(APIView):
 
 class MonterDailyApiList(APIView):
     permission_classes = [IsAuthenticated]
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['date']
+    ordering = ['-date']
 
     def get(self, format=None):
         monter_daily = models.MonterDaily.objects.all().order_by('-date')
