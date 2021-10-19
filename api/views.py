@@ -35,7 +35,8 @@ class MonterDailyApiList(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, format=None):
-        monter_daily = models.MonterDaily.objects.all()
+        monter_daily = models.MonterDaily.objects.all().order_by('-date')
+
         serializer = serializers.MonterDailySerializer(monter_daily, many=True)
         return Response(serializer.data)
 
