@@ -8,7 +8,9 @@ body, html {
     color: #F2E9E4 !important;
     min-height: 100%;
 }
-
+.pad{
+    padding-bottom: 70px;
+}
 .navbar-brand {
     color: #C9ADA7 !important;
 }
