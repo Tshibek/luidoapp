@@ -4,10 +4,13 @@
 
   <!-- Copyright -->
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-    © 2020
+      ©<span id="year" class=""></span>
     <a class="text-white" href="https://shadowanime.pl/">Luido - tshibe</a>
   </div>
   <!-- Copyright -->
 
 </footer>
 <!-- Footer -->
+<script rel="javascript">
+    document.getElementById("year").innerHTML = new Date().getFullYear();
+</script>

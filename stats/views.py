@@ -133,7 +133,6 @@ class BarChartCountJSONView(BaseLineChartView):
         return next_color(colors)
 
     def get_labels(self):
-        # print(months)
         return months
 
     def get_providers(self):
@@ -147,9 +146,7 @@ class BarChartCountJSONView(BaseLineChartView):
         # team = [team.salary() for team in teams]
         year = datetime.datetime.now()
         for team in teams:
-            print()
             x.extend(list(team.count_montage()))
-        print(x)
         return x
 
 

@@ -1,9 +1,77 @@
 {% extends 'assets/layout.html' %}
+{% load widget_tweaks %}
 {% block title %}Dodaj reklamacje{% endblock %}
 {% block content %}
-    <form method="post" >
-    {% csrf_token %}
-    {{ form_todo.as_table }}
-    <button type="submit" class="btn btn-sm btn-danger">Dodaj</button>
-</form>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center my-5">
+                    <h1 class="">Dane Reklamacji</h1>
+                </div>
+            </div>
+        </div>
+
+        <form class="form-horizontal" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col">
+                    <label class="form-label" for="form1Example1" style="margin-left: 0px;">Ekipa:</label>
+                    {% render_field form_todo.team class="form-select text-black" id="form1Example1" %}
+                </div>
+                <div class="col">
+                    <label class="form-label" for="form1Example2" style="margin-left: 0px;">Status:</label>
+                    {% render_field form_todo.status class="form-select text-black" id="form1Example2" %}
+                </div>
+                <div class="col-12 pt-3">
+                    <label class="form-label" for="form1Example3" style="margin-left: 0px;">Tytuł:</label>
+                    {% render_field form_todo.title class="form-control text-black" id="form1Example3" %}
+                </div>
+                <div class="col-12 pt-3">
+                    <label class="form-label" for="form1Example4" style="margin-left: 0px;">Komentarz:</label>
+                    {% render_field form_todo.desc class="form-control text-black" id="form1Example4" %}
+                </div>
+                <div class="col pt-3">
+                    <label class="form-label" for="form1Example5" style="margin-left: 0px;">Kontakt data:</label>
+                    {% render_field form_todo.contact_date class="form-control text-black" id="form1Example5" name="contact_date" placeholder="MM/DD/YYY" type="text" %}
+                </div>
+                <div class="col pt-3">
+                    <label class="form-label" for="form1Example7" style="margin-left: 0px;">Data zakończenia:</label>
+                    {% render_field form_todo.finish_date class="form-control text-black" id="form1Example7" name="finish_date" placeholder="MM/DD/YYY" type="text" %}
+                </div>
+                <div class="col-12 py-5 text-center">
+                    <button type="submit" class="btn btn-dark btn-block">Dodaj</button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block extra_javascript %}
+    <script>
+        $(document).ready(function () {
+            var date_input = $('input[name="contact_date"]'); //our date input has the name "date"
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            var options = {
+                format: 'mm/dd/yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            };
+            date_input.datepicker(options);
+        });
+
+        $(document).ready(function () {
+            var date_input = $('input[name="finish_date"]'); //our date input has the name "date"
+            var container = $('.bootstrap-iso form').length > 0 ? $('.bootstrap-iso form').parent() : "body";
+            var options = {
+                format: 'mm/dd/yyyy',
+                container: container,
+                todayHighlight: true,
+                autoclose: true,
+            };
+            date_input.datepicker(options);
+        });
+        </script>
+
 {% endblock %}

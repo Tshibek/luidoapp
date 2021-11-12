@@ -137,7 +137,7 @@ class MonterDaily(models.Model):
         ordering = ['-date']
 
     def __str__(self):
-        return '{},{} - {} - {} - {}'.format(self.name, self.status, self.date, self.time_start,self.end_time)
+        return '{},{} - {} - {} - {}'.format(self.name, self.status, self.date, self.time_start, self.end_time)
 
     def save(self, *args, **kwargs):
         """ On save, update timestamps """
@@ -204,6 +204,7 @@ class MontageGallery(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.id:
+
             self.images = self.compressImage(self.images)
         super(MontageGallery, self).save(*args, **kwargs)
 

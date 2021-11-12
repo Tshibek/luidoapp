@@ -1,25 +1,59 @@
 {% extends 'assets/layout.html' %}
 {% block title %}ToDo Reklamacje{% endblock %}
 {% block content %}
-<div class="container-fluid">
-<div class="row">
-    <div class="col-lg-3 bg-danger">
-        <div class="text-center">Zgłoszona</div>
+    <div class="container-fluid">
         <div class="row">
-            {% for todo in todos.status_reported %}
             <div class="col-12">
-                <div class="bg-info">{{ todo.title }}</div>
+                <div class="py-5 text-center">
+                    <a href="{% url 'todo:todo_add' %}" class="btn btn-sm btn-danger">Dodaj reklamacje</a>
+                </div>
+
             </div>
-            {% endfor %}
         </div>
+        <div class="row">
+
+            <div class="col-lg-3 bg-danger">
+                <div class="text-center">Zgłoszona</div>
+                <div class="row">
+                    {% for todo in todos.status_reported %}
+                        <div class="col-12">
+                            <div class="bg-info">{{ todo.title }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-3 bg-info">
+                <div class="text-center">Umówiona</div>
+                <div class="row">
+                    {% for todo in todos.status_contact %}
+                        <div class="col-12">
+                            <div class="bg-info">{{ todo.title }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-3 bg-warning">
+                <div class="text-center">W trakcie</div>
+                <div class="row">
+                    {% for todo in todos.status_in_progress %}
+                        <div class="col-12">
+                            <div class="bg-info">{{ todo.title }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-lg-3 bg-success">
+                <div class="text-center">Wykonana</div>
+                <div class="row">
+                    {% for todo in todos.status_done %}
+                        <div class="col-12">
+                            <div class="bg-info">{{ todo.title }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
     </div>
-    <div class="col-lg-3 bg-info">Umówiona</div>
-    <div class="col-lg-3 bg-warning">W trakcie</div>
-    <div class="col-lg-3 bg-success">Wykonana</div>
-</div>
-
-
-
-
-</div>
 {% endblock %}
