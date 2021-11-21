@@ -1,4 +1,5 @@
 <div class="row my-5">
+    <h3 id="year" class="text-center py-5"></h3>
     <div class="col">
         <a href="{% url 'core:example_table' pk=pk month=1 year=date_year%}" id="add_team" class="btn btn-sm btn-dark">STYCZEŃ</a>
     </div>
@@ -35,5 +36,50 @@
     <div class="col">
         <a href="{% url 'core:example_table' pk=pk month=12 year=date_year %}"id="add_team" class="btn btn-sm btn-dark">GRUDZIEŃ</a>
     </div>
-
 </div>
+
+
+<div class="row my-5">
+    <h3 id="pre_year" class="text-center py-5"></h3>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=1 year=pre_year%}" id="add_team" class="btn btn-sm btn-dark">STYCZEŃ</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=2 year=pre_year %}" id="add_team" class="btn btn-sm btn-dark">LUTY</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=3 year=pre_year %}" id="add_team" class="btn btn-sm btn-dark">MARZEC</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=4 year=pre_year %}" id="add_team" class="btn btn-sm btn-dark">KWIECIEŃ</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=5 year=pre_year%}" id="add_team" class="btn btn-sm btn-dark">MAJ</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=6 year=pre_year %}"id="add_team" class="btn btn-sm btn-dark">CZERWIEC</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=7 year=pre_year %}" id="add_team" class="btn btn-sm btn-dark">LIPIEC</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=8 year=pre_year%}" id="add_team" class="btn btn-sm btn-dark">SIERPIEŃ</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=9 year=pre_year %}" id="add_team" class="btn btn-sm btn-dark">WRZESIEŃ</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=10 year=pre_year%}" id="add_team" class="btn btn-sm btn-dark">PAŹDZIERNIK</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=11 year=pre_year %}" id="add_team" class="btn btn-sm btn-dark">LISTOPAD</a>
+    </div>
+    <div class="col">
+        <a href="{% url 'core:example_table' pk=pk month=12 year=pre_year %}"id="add_team" class="btn btn-sm btn-dark">GRUDZIEŃ</a>
+    </div>
+</div>
+
+<script rel="javascript">
+    document.getElementById("year").innerHTML = new Date().getFullYear();
+    document.getElementById("pre_year").innerHTML = new Date().getFullYear() - 1;
+</script>

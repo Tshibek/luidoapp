@@ -37,7 +37,7 @@ def example_table(request, pk, month, year):
             messages.add_message(request, messages.INFO, 'Dla tego roku nie ma jeszcze danych!!')
             return redirect('core:monter_list')
     except Exception as e:
-        messages.add_message(request, messages.INFO, e)
+        messages.add_message(request, messages.INFO, f"Dane nie istnieja! -  {e}")
         return redirect('core:monter_list')
     context = locals()
     return render(request, 'table_hours.html', context)
@@ -48,6 +48,8 @@ def monter_data_list(request, pk, name):
     monter = MonterDaily.objects.filter(name=pk, name__name=name).all().order_by('-date')
     date = datetime.now()
     date_year = date.year
+    pre_year = date_year -1
+    print(pre_year)
     context = locals()
     return render(request, 'list/monter_data_list.html', context)
 

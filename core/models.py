@@ -204,7 +204,6 @@ class MontageGallery(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.id:
-
             self.images = self.compressImage(self.images)
         super(MontageGallery, self).save(*args, **kwargs)
 
