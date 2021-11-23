@@ -1,3 +1,5 @@
+import datetime
+
 from django.shortcuts import render
 
 # Create your views here.
@@ -20,6 +22,28 @@ class MonterApiList(APIView):
     def get(self, format=None):
         monter = models.Monter.objects.all()
         serializer = serializers.MonterSerializer(monter, many=True)
+        return Response(serializer.data)
+
+
+class MonterDailyTodayApiList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, format=None):
+        monter_daily = models.MonterDaily.objects.filter(
+            created__gte=timezone.now().replace(hour=0, minute=0, second=0),
+            created__lte=timezone.now().replace(hour=23, minute=59, second=59))
+        serializer = serializers.MonterDailyTodaySerializer(monter_daily, many=True)
+        return Response(serializer.data)
+
+
+class MontagePaidApiList(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, format=None):
+        montage_paid = models.MontagePaid.objects.filter(
+            created__gte=timezone.now().replace(hour=0, minute=0, second=0),
+            created__lte=timezone.now().replace(hour=23, minute=59, second=59))
+        serializer = serializers.MontagePaidSerializer(montage_paid, many=True)
         return Response(serializer.data)
 
 

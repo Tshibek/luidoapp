@@ -5,6 +5,13 @@ from rest_framework.validators import UniqueTogetherValidator
 from core import models
 
 
+class MonterDailyTodaySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.MonterDaily
+        depth = 1
+        fields = ['daily_montage', 'end_time','daily_hours']
+
+
 class DailyMontageToday(serializers.ModelSerializer):
     class Meta:
         model = models.DailyMontage
@@ -16,6 +23,13 @@ class MonterSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Monter
         fields = ['name', 'type', 'id']
+
+
+class MontagePaidSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.MontagePaid
+        depth = 1
+        fields = ['montage', ]
 
 
 class TeamSerializer(serializers.ModelSerializer):

@@ -12,5 +12,7 @@ urlpatterns = [
     path('monter_daily', views.MonterDailyApiList.as_view(), name='monter_daily_api_list'),
     path('get_montage_today', views.DailyMontageToday.as_view(), name='montage_api_get_today'),
     path('daily', views.DailyMontageCreateAPIView.as_view(), name='daily_api_post'),
+    path('montage_paid_today', views.MontagePaidApiList.as_view(), name='montage_paid_today_api'),
+    path('monter_daily_today', views.MonterDailyTodayApiList.as_view(),name ='monter_daily_today_api')
 
 ]

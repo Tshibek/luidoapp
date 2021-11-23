@@ -4,6 +4,7 @@ TYPE = (
 )
 
 STATUS = (
+    ('Zaakceptowane', 'Zaakceptowane'),
     ('W drodze', 'W drodze'),
     ('Rozpoczęta', 'Rozpoczęta'),
     ('Wykonana', 'Wykonana'),
