@@ -53,7 +53,8 @@ INSTALLED_APPS = [
     'stats',
     'core',
     'api',
-    'todo'
+    'todo',
+    'geotask'
 
 ]
 
