@@ -11,3 +11,4 @@ def scrap_monthly_hours(month, year):
     hour = hours[month - 1].text
     hour = int(hour)
     return hour
+

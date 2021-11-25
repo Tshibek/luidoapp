@@ -16,6 +16,7 @@ from io import BytesIO
 
 from stats.charts import get_year_dict, months
 from . import utils
+
 from .scrap_year_hours import scrap_monthly_hours
 
 
@@ -59,6 +60,7 @@ class Monter(models.Model):
 
         context = locals()
         return context
+
 
 
 class Team(models.Model):

@@ -13,6 +13,8 @@ from . import forms
 from .models import Team, Monter, MontagePaid, DailyMontage, MonterDaily, MontageGallery
 from itertools import groupby
 
+from .scrap_year_hours import scrap_monthly_hours
+
 
 @login_required()
 def home(request):
@@ -29,6 +31,7 @@ def example_table(request, pk, month, year):
     num_days = calendar.monthrange(date.year, month)[1]
     num_days = range(1, num_days + 1)
     day_wise_data = [day_wise_data.get(day, tuple()) for day in num_days]
+    scraper = scrap_monthly_hours(month, year)
 
     try:
         if year == date.year:
