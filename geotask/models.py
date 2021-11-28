@@ -8,7 +8,7 @@ from django.utils import timezone
 from sorl.thumbnail import ImageField
 from PIL import Image, ImageOps
 from io import BytesIO
-from core.models import Team
+from core.models import Team, Monter
 from geotask import utils
 
 
@@ -29,6 +29,7 @@ class Task(models.Model):
     team = models.ForeignKey(Team, on_delete=models.CASCADE)
     date = models.DateField()
     created = models.DateTimeField(auto_now_add=True)
+    monters = models.ManyToManyField(Monter)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):

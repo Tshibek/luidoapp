@@ -1,0 +1,30 @@
+{% extends 'assets/layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row pt-5">
+            {% for task in geotask %}
+            <div class="col-lg-3 col-md-6 col-sm-12">
+                <div  class="card btn-dark">
+                    <div class="card-body text-center">
+                        <div class="card-header">{{ task.team }}</div>
+                        <h5 class="card-title pt-2">{{ task.type }} </h5>
+                        <p class="card-text pt-2">
+                            Numer zamówienia  : {{ task.client.order_number }}
+                        </p>
+                        <p class="card-text">
+                            Montazyści: {% for x in task.monters.all %}{{ x.name }} {% endfor %}
+                        </p>
+                        <a href="{% url 'geotask:task_content' pk=task.pk %}" class="btn btn-primary mb-2">Button</a>
+                        <div class="card-footer text-muted ">{{ task.date}}</div>
+                    </div>
+                </div>
+
+            </div>
+             {% endfor %}
+        </div>
+    </div>
+
+
+
+{% endblock %}

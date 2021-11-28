@@ -28,7 +28,7 @@ class MonterApiList(APIView):
 class MonterDailyTodayApiList(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, format=None):
+    def get(self, request, format=None):
         monter_daily = models.MonterDaily.objects.filter(
             created__gte=timezone.now().replace(hour=0, minute=0, second=0),
             created__lte=timezone.now().replace(hour=23, minute=59, second=59))

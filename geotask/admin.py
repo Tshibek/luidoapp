@@ -13,3 +13,4 @@ class CustomClientAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Client,CustomClientAdmin)
+admin.site.register(models.Task)

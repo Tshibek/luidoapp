@@ -26,7 +26,8 @@ urlpatterns = [
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('todo', include('todo.urls', namespace='todo')),
     path('api/', include('api.urls', namespace='api')),
-    path('stats/', include('stats.urls', namespace='stats'))
+    path('stats/', include('stats.urls', namespace='stats')),
+    path('zadania/', include('geotask.urls', namespace='geotask'))
 
     # re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT})
 ]
