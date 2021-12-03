@@ -1,8 +1,10 @@
 {% extends 'assets/layout.html' %}
 {% block title %}Zadania{% endblock %}
 {% block content %}
+
     <div class="container">
         <div class="row pt-5">
+        {% if task %}
             {% for task in geotask %}
             <div class="col-lg-3 col-md-6 col-sm-12">
                 <div  class="card btn-dark">
@@ -22,6 +24,8 @@
 
             </div>
              {% endfor %}
+        {% else %}
+        <h1 class="text-center">BRAK ZADAŃ!</h1>
         </div>
     </div>
 
