@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.utils import timezone
 from core import models
-from api import serializers
+from . import serializers
 
 
 class MonterApiList(APIView):
