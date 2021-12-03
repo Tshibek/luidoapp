@@ -12,14 +12,13 @@ class TeamForm(forms.ModelForm):
 class MonterForm(forms.ModelForm):
     class Meta:
         model = Monter
-        fields = ('name','type')
+        fields = ('name', 'type')
 
 
 class DailyMontageForm(forms.ModelForm):
     class Meta:
         model = DailyMontage
         fields = ('team', 'type', 'day_montage')
-
 
 
 MonterDailyFormset = modelformset_factory(
@@ -33,10 +32,10 @@ MonterDailyFormset = modelformset_factory(
 class MontagePaidForm(forms.ModelForm):
     class Meta:
         model = MontagePaid
-        fields = ('days', 'paid', 'cabinet', 'status','comment', 'build', 'cornice', 'turnbuckles', 'type_table')
+        fields = ('days', 'paid', 'cabinet', 'status', 'comment', 'build', 'cornice', 'turnbuckles', 'type_table')
 
 
-class MontageFullPaid(MontagePaidForm): #extending form
+class MontageFullPaid(MontagePaidForm):  # extending form
     images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
     class Meta(MontagePaidForm.Meta):

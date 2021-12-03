@@ -1,7 +1,5 @@
-import datetime
 
 from django.shortcuts import render
-
 # Create your views here.
 from rest_framework import filters
 from django.http import HttpResponse, JsonResponse
@@ -29,9 +27,7 @@ class MonterDailyTodayApiList(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
-        monter_daily = models.MonterDaily.objects.filter(
-            created__gte=timezone.now().replace(hour=0, minute=0, second=0),
-            created__lte=timezone.now().replace(hour=23, minute=59, second=59))
+        monter_daily = models.MonterDaily.objects.filter(date=timezone.localdate())
         serializer = serializers.MonterDailyTodaySerializer(monter_daily, many=True)
         return Response(serializer.data)
 
@@ -40,9 +36,7 @@ class MontagePaidApiList(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, format=None):
-        montage_paid = models.MontagePaid.objects.filter(
-            created__gte=timezone.now().replace(hour=0, minute=0, second=0),
-            created__lte=timezone.now().replace(hour=23, minute=59, second=59))
+        montage_paid = models.MontagePaid.objects.filter(date=timezone.localdate())
         serializer = serializers.MontagePaidSerializer(montage_paid, many=True)
         return Response(serializer.data)
 

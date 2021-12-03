@@ -1,5 +1,139 @@
 {% extends 'assets/layout.html' %}
-
+{% block title %}Zadanie - Zamówienie {{ geotask.client.order_number }}{% endblock %}
 {% block content %}
-<h2>{{ pk }}</h2>
+    <div class="container py-5 h-50">
+     {% if messages %}
+        <div class="alert">
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'info' %}info{% endif %}" role="alert">
+                    <h4 class="alert-heading">INFORMACJA</h4>
+                    <p>{{ message }}</p>
+                    <hr>
+                </div>
+
+            {% endfor %}
+        </div>
+    {% endif %}
+        <div class="row d-flex justify-content-center align-items-center h-75">
+            <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                <div id="add_team" class="card bg-dark text-white"
+                     style="border-radius: 1rem;background-color: #22223B!important;">
+                    <div class="card-body p-5 text-center">
+
+                        <div class="row pt-2">
+                            <div class="col">
+                                <p>NUMER ZAMÓWIENIA</p>
+                                <small class="font-weight-bold">{{ geotask.client.order_number }}</small>
+                            </div>
+                            <div class="col">
+                                <p>STATUS</p>
+                                <small class="text-danger font-weight-bold">
+                                    Zmień ->
+                                    <a class="text-danger"
+                                       href="{% url 'geotask:update_status_geotask' pk=pk %}">{{ geotask.status.status }}</a>
+                                </small>
+                            </div>
+                        </div>
+
+
+                        {% if geotask.comment %}
+                            <div class="row pt-5">
+                                <div class="col">
+                                    <p>KOMENTARZ</p>
+                                    <small>{{ geotask.comment.comment }}</small>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="row pt-5">
+                                <div class="col">
+                                    <p>KOMENTARZ</p>
+                                    <small>
+                                        <a href="{% url 'geotask:add_geotask_comment' pk=pk %}">Dodaj komentarz</a>
+                                    </small>
+                                </div>
+                            </div>
+                        {% endif %}
+
+
+                        <div class="row pt-5">
+                            <div class="col">
+                                <p>PRZYDZIELENI MONTAŻYŚCI</p>
+                                <small class="font-weight-bold">{{ geotask.get_monters|join:", " }}</small>
+                            </div>
+
+                        </div>
+
+                        <div class="row pt-5">
+                            <div class="col">
+                                <p>EKIPA</p>
+                                <small class="text-info font-weight-bold">{{ geotask.team.team }}</small>
+                            </div>
+                            <div class="col">
+                                <p>DATA:</p>
+                                <small>{{ geotask.date }}</small>
+                            </div>
+                            <div class="col">
+                                <p>RODZAJ</p>
+                                <small class="font-weight-bold">{{ geotask.type }}</small>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if  geotask.project %}
+        <div class="container">
+            <div class="row">
+                <div class="intro">
+                    <h2 class="text-center">Projekt</h2>
+                </div>
+                <div class="col">
+                    <small class="text-center pt-3">
+                        {% for project in geotask.project %}
+                            <a class="btn btn-dark" href="{{ MEDIA_URL }}{{ project.file }}">Projekt
+                                - {{ project.client.order_number }}</a>
+                        {% endfor %}
+                    </small>
+                </div>
+
+            </div>
+        </div>
+    {% endif %}
+    {% if geotask.get_images %}
+        <div class="lightbox-gallery mb-5 pb-5 mt-5">
+            <div class="container">
+                <div class="intro">
+                    <h2 class="text-center">Zdjęcia montażu</h2>
+                </div>
+                <p class="text-center pt-3">
+                    <a class="h5" href="{% url 'geotask:add_geotask_images' pk=pk %}">Dodaj więcej zdjeć</a>
+                </p>
+
+                <div class="row photos">
+                    {% for image in geotask.get_images %}
+                        <div class="col-sm-6 col-md-4 col-lg-3 item pb-1 mb-1"><a
+                                href="{{ MEDIA_URL }}{{ image.images }}"
+                                data-lightbox="photos"><img
+                                class="img-fluid" src="{{ MEDIA_URL }}{{ image.images }}" alt="{{ forloop.counter }}"
+                                width="330" height="330"></a></div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="container mt-4">
+            <div class="row">
+                <div class="intro">
+                    <h2 class="text-center">Zdjęcia montażu</h2>
+                </div>
+                <p class="text-center pt-2">
+                    <a class="h5" href="{% url 'geotask:add_geotask_images' pk=pk %}">Dodaj zdjecia</a>
+                </p>
+
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

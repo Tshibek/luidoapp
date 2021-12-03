@@ -12,6 +12,9 @@ class CustomClientAdmin(admin.ModelAdmin):
     inlines = (ProjectClient,)
 
 
-admin.site.register(models.Client,CustomClientAdmin)
+admin.site.register(models.Client, CustomClientAdmin)
 admin.site.register(models.Task)
 admin.site.register(models.StatusTask)
+
+
+

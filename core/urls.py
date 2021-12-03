@@ -20,6 +20,7 @@ from django.views.static import serve
 
 from luidoapp.settings import MEDIA_ROOT
 from . import views
+from . import api
 
 app_name = 'core'
 urlpatterns = [
@@ -27,21 +28,29 @@ urlpatterns = [
     path('example_table/<int:pk>/<int:year>/<int:month>', views.example_table, name='example_table'),
 
     path('daily', views.daily_hours, name='daily_hours'),
-    path('daily/add', views.add_daily_montage,name='montage_post'),
+    path('daily/add', views.add_daily_montage, name='montage_post'),
 
-    path('endwork',views.end_daily_montage,name="end_work"),
+    path('endwork', views.end_daily_montage, name="end_work"),
 
     path('montage', views.montage_list, name='montage_list'),
-    path('montage/add',views.add_montage_paid, name='montage_paid_post'),
-    path('montage/<int:pk>', views.montage_detail,name='montage_detail'),
+    path('montage/add', views.add_montage_paid, name='montage_paid_post'),
+    path('montage/<int:pk>', views.montage_detail, name='montage_detail'),
 
     path('monter', views.monter_list, name='monter_list'),
     path('monter/add', views.add_monter, name='add_monter'),
     path('monter/<int:pk>/<str:name>', views.monter_data_list, name='monter_data_list'),
 
-    path('teams', views.team_list,name='team_list'),
-    path('teams/add',views.add_team,name='add_team'),
-    path('team/montage/<str:name>',views.montage_team_list, name='montage_team_list')
-    # re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT})
-]
+    path('teams', views.team_list, name='team_list'),
+    path('teams/add', views.add_team, name='add_team'),
+    path('team/montage/<str:name>', views.montage_team_list, name='montage_team_list'),
 
+    # API URLS
+
+    path('lista/team', api.TeamApiList.as_view(), name='team_api_list'),
+    path('lista/monter', api.MonterApiList.as_view(), name='monter_api_list'),
+    path('monter_daily', api.MonterDailyApiList.as_view(), name='monter_daily_api_list'),
+    path('get_montage_today', api.DailyMontageToday.as_view(), name='montage_api_get_today'),
+    path('daily', api.DailyMontageCreateAPIView.as_view(), name='daily_api_post'),
+    path('montage_paid_today', api.MontagePaidApiList.as_view(), name='montage_paid_today_api'),
+    path('monter_daily_today', api.MonterDailyTodayApiList.as_view(), name='monter_daily_today_api')
+]

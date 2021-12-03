@@ -10,7 +10,6 @@ from django.utils import timezone
 from sorl.thumbnail import ImageField
 from PIL import Image, ImageOps
 from io import BytesIO
-from core.models import Team, Monter
 from geotask import utils
 
 
@@ -28,10 +27,10 @@ class Task(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     type = models.CharField(choices=utils.TYPE, max_length=40)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team = models.ForeignKey("core.Team", on_delete=models.CASCADE)
     date = models.DateField()
     created = models.DateTimeField(auto_now_add=True)
-    monters = models.ManyToManyField(Monter)
+    monters = models.ManyToManyField("core.Monter")
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -40,6 +39,20 @@ class Task(models.Model):
     def project(self):
         project = Project.objects.filter(client=self.client).all()
         return project
+
+    def status(self):
+        return StatusTask.objects.filter(task=self.pk).first()
+
+    def comment(self):
+        return CommentTask.objects.get(task=self.pk)
+
+    def get_monters(self):
+        monter = [monter.name for monter in self.monters.all()]
+        return monter
+
+    def get_images(self):
+        return TaskGallery.objects.filter(task=self.pk).all()
+
 
 
 def montage_gallery_path(instance, filename):
@@ -71,8 +84,8 @@ class TaskGallery(models.Model):
 
 
 class CommentTask(models.Model):
-    task = models.ForeignKey(Task, models.CASCADE)
-    comment = models.TextField(editable=False)
+    task = models.OneToOneField(Task, on_delete=models.CASCADE)
+    comment = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -86,7 +99,7 @@ def projects_path(instance, filename):
 
 class Project(models.Model):
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
-    file = models.FileField(upload_to=projects_path,null=True,
+    file = models.FileField(upload_to=projects_path, null=True,
                             blank=True,
                             validators=[FileExtensionValidator(['pdf'])])
     created = models.DateTimeField(auto_now_add=True)

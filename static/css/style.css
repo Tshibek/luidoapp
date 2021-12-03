@@ -8,6 +8,9 @@ body, html {
     color: #F2E9E4 !important;
     min-height: 100%;
 }
+a{
+    text-decoration: none!important;
+}
 .pad{
     padding-bottom: 70px;
 }
