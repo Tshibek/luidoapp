@@ -15,7 +15,7 @@
                         <p class="card-text">
                             Montazyści: {% for x in task.monters.all %}{{ x.name }} {% endfor %}
                         </p>
-                        <a href="{% url 'geotask:task_content' pk=task.pk %}" class="btn btn-primary mb-2">Button</a>
+                        <a href="{% url 'geotask:task_content' pk=task.pk %}" class="btn btn-primary mb-2">Statusy</a>
                         <div class="card-footer text-muted ">{{ task.date}}</div>
                     </div>
                 </div>

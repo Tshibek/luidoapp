@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.utils import timezone
 from sorl.thumbnail import ImageField
 from PIL import Image, ImageOps
@@ -19,7 +21,7 @@ class Client(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.order_number)
+        return "{} - {}".format(str(self.order_number), self.last_name)
 
 
 class Task(models.Model):
@@ -102,3 +104,9 @@ class StatusTask(models.Model):
 
     def __str__(self):
         return f"Order {self.task.client.order_number} Status - {self.status}"
+
+    @receiver(post_save, sender=Task)
+    def update_task(sender, instance, created, **kwargs):
+        if created:
+            StatusTask.objects.create(task=instance)
+        instance.statustask.save()
