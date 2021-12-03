@@ -2,4 +2,5 @@
 
 {% block content %}
 <h2>{{ pk }}</h2>
+    <a href="{% url 'geotask:update_status_geotask' pk=pk %}">{{ geotask.status.status }}</a>
 {% endblock %}

@@ -14,6 +14,7 @@ from sorl.thumbnail import ImageField
 from PIL import Image, ImageOps
 from io import BytesIO
 
+
 from stats.charts import get_year_dict, months
 from . import utils
 
@@ -126,7 +127,8 @@ class DailyMontage(models.Model):
 class MonterDaily(models.Model):
     name = models.ForeignKey(Monter, on_delete=models.SET_NULL, null=True)
     status = models.CharField(choices=utils.STATUS, max_length=30, default='PRACUJE', null=True, blank=True)
-    daily_montage = models.ForeignKey(DailyMontage, on_delete=models.SET_NULL, null=True, related_name='daily_montage')
+    daily_montage = models.ForeignKey(DailyMontage, on_delete=models.SET_NULL, null=True, blank=True, related_name='daily_montage')
+    geotask = models.ForeignKey("geotask.Task", on_delete=models.SET_NULL,null=True,blank=True, related_name='geotask')
     time_start = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
     daily_hours = models.TimeField(blank=True, null=True)

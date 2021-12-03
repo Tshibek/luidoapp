@@ -30,7 +30,7 @@
 
 
                                 <td>{{ monters.status }}</td>
-                                <td >{{ monters.daily_montage.team.team }}</td>
+                                <td >{% if monters.daily_montage %}{{ monters.daily_montage.team.team }}{% else %} {{ monters.geotask.team.team }}{% endif %}</td>
                                 <td>{{ monters.time_start }}</td>
                                 <td>{{ monters.end_time }}</td>
                                 <td>{{ monters.daily_hours }}</td>

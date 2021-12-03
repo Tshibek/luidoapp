@@ -1,0 +1,11 @@
+{% extends 'assets/layout.html' %}
+{% load widget_tweaks %}
+{% block content %}
+    <form method="post" role="form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% render_field form.status class="form-control" id="status_geotask" %}
+        <button type="submit">Zmien</button>
+
+    </form>
+
+{% endblock %}
