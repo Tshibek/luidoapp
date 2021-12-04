@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, re_path
+from django.views.decorators.csrf import csrf_exempt
 from django.views.static import serve
 
 from luidoapp.settings import MEDIA_ROOT
@@ -46,11 +47,11 @@ urlpatterns = [
 
     # API URLS
 
-    path('lista/team', api.TeamApiList.as_view(), name='team_api_list'),
-    path('lista/monter', api.MonterApiList.as_view(), name='monter_api_list'),
-    path('monter_daily', api.MonterDailyApiList.as_view(), name='monter_daily_api_list'),
-    path('get_montage_today', api.DailyMontageToday.as_view(), name='montage_api_get_today'),
-    path('daily', api.DailyMontageCreateAPIView.as_view(), name='daily_api_post'),
-    path('montage_paid_today', api.MontagePaidApiList.as_view(), name='montage_paid_today_api'),
-    path('monter_daily_today', api.MonterDailyTodayApiList.as_view(), name='monter_daily_today_api')
+    path('api/lista/team', api.TeamApiList.as_view(), name='team_api_list'),
+    path('api/lista/monter', api.MonterApiList.as_view(), name='monter_api_list'),
+    path('api/monter_daily', api.MonterDailyApiList.as_view(), name='monter_daily_api_list'),
+    path('api/get_montage_today', api.DailyMontageToday.as_view(), name='montage_api_get_today'),
+    path('api/daily', api.DailyMontageCreateAPIView.as_view(), name='daily_api_post'),
+    path('api/montage_paid_today', api.MontagePaidApiList.as_view(), name='montage_paid_today_api'),
+    path('api/monter_daily_today', api.MonterDailyTodayApiList.as_view(), name='monter_daily_today_api')
 ]

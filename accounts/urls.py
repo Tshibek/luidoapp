@@ -19,6 +19,7 @@ from . import api
 from . import views
 from django.contrib.auth import views as auth_views
 from rest_framework.authtoken import views as av
+
 app_name = 'accounts'
 urlpatterns = [
     # website url
@@ -27,9 +28,7 @@ urlpatterns = [
     path('logout', views.logout_view, name='logout'),
 
     # API URL
-    path('user/', api.UserRecordView.as_view(), name='users'),
     path('api-token-auth/', av.obtain_auth_token, name='api-token-auth'),
-
-
+    path('user/current', api.CurrentUserView.as_view(), name='current_user_api')
 
 ]

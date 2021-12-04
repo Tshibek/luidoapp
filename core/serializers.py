@@ -8,7 +8,7 @@ class MonterDailyTodaySerializer(serializers.ModelSerializer):
     class Meta:
         model = models.MonterDaily
         depth = 1
-        fields = ['daily_montage', 'end_time','daily_hours']
+        fields = ['daily_montage','end_time','daily_hours']
 
 
 class DailyMontageToday(serializers.ModelSerializer):

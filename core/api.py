@@ -1,10 +1,11 @@
-
 from django.shortcuts import render
 # Create your views here.
+from django.utils.decorators import method_decorator
 from rest_framework import filters
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status, generics
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.parsers import JSONParser
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
@@ -26,7 +27,7 @@ class MonterApiList(APIView):
 class MonterDailyTodayApiList(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, format=None):
+    def get(self, format=None):
         monter_daily = models.MonterDaily.objects.filter(date=timezone.localdate())
         serializer = serializers.MonterDailyTodaySerializer(monter_daily, many=True)
         return Response(serializer.data)
@@ -74,6 +75,8 @@ class MonterDailyApiList(APIView):
 
 class DailyMontageCreateAPIView(generics.CreateAPIView):
     queryset = models.MonterDaily.objects.all()
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
     serializer_class = serializers.DailyMontageCreateSerializer
 
 
