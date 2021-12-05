@@ -14,7 +14,6 @@ from sorl.thumbnail import ImageField
 from PIL import Image, ImageOps
 from io import BytesIO
 
-
 from stats.charts import get_year_dict, months
 from . import utils
 
@@ -22,7 +21,7 @@ from .scrap_year_hours import scrap_monthly_hours
 
 
 class Monter(models.Model):
-    name = models.CharField(max_length=15)
+    name = models.CharField(max_length=15, db_index=True)
     type = models.CharField(choices=utils.TYPE_MONTER, default='MONTAŻ', max_length=15)
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField()
@@ -63,9 +62,8 @@ class Monter(models.Model):
         return context
 
 
-
 class Team(models.Model):
-    team = models.CharField(max_length=15, unique=True)
+    team = models.CharField(max_length=15, unique=True, db_index=True)
     created = models.DateField(auto_now_add=True)
 
     def __str__(self):
@@ -101,7 +99,7 @@ class DailyMontage(models.Model):
     team = models.ForeignKey(Team, on_delete=models.SET_NULL, null=True)
     type = models.CharField(choices=utils.TYPE, max_length=35, default='Montaż')
     day_montage = models.CharField(choices=utils.DAY_MONTAGE, max_length=8, default='1/1')
-    date = models.DateField(null=True, blank=True)
+    date = models.DateField(null=True, blank=True,db_index=True)
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField()
 
@@ -126,13 +124,15 @@ class DailyMontage(models.Model):
 
 class MonterDaily(models.Model):
     name = models.ForeignKey(Monter, on_delete=models.SET_NULL, null=True)
-    status = models.CharField(choices=utils.STATUS, max_length=30, default='PRACUJE', null=True, blank=True)
-    daily_montage = models.ForeignKey(DailyMontage, on_delete=models.SET_NULL, null=True, blank=True, related_name='daily_montage')
-    geotask = models.ForeignKey("geotask.Task", on_delete=models.SET_NULL,null=True,blank=True, related_name='geotask')
+    status = models.CharField(choices=utils.STATUS, max_length=30, default='PRACUJE', null=True, blank=True,db_index=True)
+    daily_montage = models.ForeignKey(DailyMontage, on_delete=models.SET_NULL, null=True, blank=True,
+                                      related_name='daily_montage')
+    geotask = models.ForeignKey("geotask.Task", on_delete=models.SET_NULL, null=True, blank=True,
+                                related_name='geotask')
     time_start = models.TimeField(blank=True, null=True)
     end_time = models.TimeField(blank=True, null=True)
     daily_hours = models.TimeField(blank=True, null=True)
-    date = models.DateField(null=True, blank=True)
+    date = models.DateField(null=True, blank=True,db_index=True)
     created = models.DateTimeField(editable=False)
     updated = models.DateTimeField()
 
