@@ -32,7 +32,8 @@ urlpatterns = [
 ]
 
 handler404 = 'core.error_handler.handler404'
-# handler500 = 'core.error_handler.my_custom_error_view'
+
+handler404 = 'core.error_handler.handler500'
 # handler403 = 'core.error_handler.my_custom_permission_denied_view'
 # handler400 = 'core.error_handler.my_custom_bad_request_view'
 from django.conf.urls.static import static

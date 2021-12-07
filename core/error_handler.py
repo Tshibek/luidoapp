@@ -7,3 +7,9 @@ def handler404(request, exception):
     response = render(request, template_name)
     response.status_code = 404
     return response
+
+def handler500(request, exception):
+    template_name="errors/404.html"
+    response = render(request, template_name)
+    response.status_code = 500
+    return response
