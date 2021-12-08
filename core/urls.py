@@ -22,7 +22,7 @@ from django.views.static import serve
 from luidoapp.settings import MEDIA_ROOT
 from . import views
 from . import api
-
+from django.views import defaults
 app_name = 'core'
 urlpatterns = [
     path('', views.home, name='home'),
@@ -55,5 +55,7 @@ urlpatterns = [
     path('api/montage_paid_today', api.MontagePaidApiList.as_view(), name='montage_paid_today_api'),
     path('api/monter_daily_today', api.MonterDailyTodayApiList.as_view(), name='monter_daily_today_api')
 ]
+
+defaults.page_not_found = views.handler404
 handler404 = 'core.views.handler404'
 handler404 = 'core.views.handler500'
