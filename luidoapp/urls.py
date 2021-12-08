@@ -31,7 +31,6 @@ urlpatterns = [
     # re_path('media/(?P<path>.*)', serve, {"document_root": MEDIA_ROOT})
 ]
 
-
 # handler403 = 'core.error_handler.my_custom_permission_denied_view'
 # handler400 = 'core.error_handler.my_custom_bad_request_view'
 from django.conf.urls.static import static
