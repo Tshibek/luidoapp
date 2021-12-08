@@ -2,11 +2,9 @@ from django.shortcuts import render
 from django.template import RequestContext
 
 
-def handler404(request, exception):
-    context = {}
-    response = render(request, 'errors/404.html', context=context)
-    response.status_code = 404
-    return response
+def error_404_view(request, exception):
+    data = {"name": "ThePythonDjango.com"}
+    return render(request,'errors/error_404.html', data)
 
 
 def handler500(request, exception):
