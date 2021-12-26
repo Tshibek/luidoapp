@@ -1,0 +1,31 @@
+{% extends 'assets/layout.html' %}
+{% load widget_tweaks %}
+{% block title %}Dodaj zdjęcia{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center my-5">
+                    <h1 class="">Dodaj zdjęcia dla Montażu - {{ montage_paid.pk }}</h1>
+                </div>
+
+            </div>
+        </div>
+        <form class="form-horizontal" id="paid" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row mb-4 mt-5">
+                <div class="col">
+                    <label class="form-label" for="form3Example1" style="margin-left: 0px;">Zdjęcia:</label>
+                    {% render_field form.images class="form-control text-black" type="file" %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8 offset-2 my-5">
+
+                    <button type="submit" class="btn btn-block btn-dark">Dodaj</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+{% endblock %}

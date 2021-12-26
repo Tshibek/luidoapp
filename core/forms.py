@@ -40,3 +40,7 @@ class MontageFullPaid(MontagePaidForm):  # extending form
 
     class Meta(MontagePaidForm.Meta):
         fields = MontagePaidForm.Meta.fields + ('images',)
+
+
+class ImagesUpdateMontageForm(forms.Form):
+    images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
