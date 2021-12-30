@@ -67,6 +67,8 @@ def daily_hours(request):
     user = User.objects.get(pk=request.user.pk)
     if request.user.is_superuser or request.user.is_staff:
         dailys = DailyMontage.objects.all().order_by('-date')
+    elif user.username == 'luido_sc2':
+        dailys = DailyMontage.objects.filter(team__team='LUIDO').all().order_by('-date')
     else:
         dailys = DailyMontage.objects.filter(team__team=user.username).all().order_by('-date')
     context = locals()
