@@ -36,6 +36,7 @@ urlpatterns = [
     path('montage', views.montage_list, name='montage_list'),
     path('montage/add', views.add_montage_paid, name='montage_paid_post'),
     path('montage/<int:pk>', views.montage_detail, name='montage_detail'),
+    path('montage/<int:pk>/update/images', views.update_image_montage,name='update_montage_images'),
 
     path('monter', views.monter_list, name='monter_list'),
     path('monter/add', views.add_monter, name='add_monter'),
@@ -56,6 +57,3 @@ urlpatterns = [
     path('api/monter_daily_today', api.MonterDailyTodayApiList.as_view(), name='monter_daily_today_api')
 ]
 
-defaults.page_not_found = views.handler404
-handler404 = 'core.views.handler404'
-handler404 = 'core.views.handler500'

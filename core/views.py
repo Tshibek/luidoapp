@@ -3,6 +3,7 @@ from datetime import datetime
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -14,14 +15,6 @@ from .models import Team, Monter, MontagePaid, DailyMontage, MonterDaily, Montag
 from itertools import groupby
 
 from .scrap_year_hours import scrap_monthly_hours
-
-
-def handler404(request, exception):
-    return render(request, 'errors/404.html', status=404)
-
-
-def handler500(request, exception):
-    return render(request, 'errors/500.html', status=500)
 
 
 
@@ -71,7 +64,13 @@ def monter_data_list(request, pk, name):
 
 @login_required()
 def daily_hours(request):
-    dailys = DailyMontage.objects.all().order_by('-date')
+    user = User.objects.get(pk=request.user.pk)
+    if request.user.is_superuser or request.user.is_staff:
+        dailys = DailyMontage.objects.all().order_by('-date')
+    elif user.username == 'luido_sc2':
+        dailys = DailyMontage.objects.filter(team__team='LUIDO').all().order_by('-date')
+    else:
+        dailys = DailyMontage.objects.filter(team__team=user.username).all().order_by('-date')
     context = locals()
     return render(request, 'hours.html', context)
 
@@ -232,3 +231,22 @@ def add_montage_paid(request):
             messages.add_message(request, messages.ERROR, 'Ekipa o tej nazwie juz istnieje!')
 
     return render(request, 'forms/add_montage_paid.html', context)
+
+
+def update_image_montage(request, pk):
+    montage_paid = MontagePaid.objects.get(pk=pk)
+    form = forms.ImagesUpdateMontageForm()
+    context = locals()
+    if request.method == 'POST':
+        form = forms.ImagesUpdateMontageForm(request.POST or None,request.FILES or None)
+        files = request.FILES.getlist('images')
+        try:
+            if form.is_valid():
+                form = forms.ImagesUpdateMontageForm(request.POST or None,request.FILES or None)
+                files = request.FILES.getlist('images')
+                for f in files:
+                    MontageGallery.objects.create(user_id=request.user.pk, montage=montage_paid,images=f)
+            return redirect('core:montage_detail',pk=pk)
+        except IntegrityError:
+            messages.add_message(request, messages.ERROR, 'Nie udało się dodać zdjęć!')
+    return render(request,'forms/update_montage_image.html',context)

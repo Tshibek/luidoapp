@@ -30,12 +30,12 @@
 
 
                         {% if montage.comment %}
-                        <div class="row pt-5">
-                            <div class="col">
-                                <p>KOMENTARZ</p>
-                                <small>{{ montage.comment }}</small>
+                            <div class="row pt-5">
+                                <div class="col">
+                                    <p>KOMENTARZ</p>
+                                    <small>{{ montage.comment }}</small>
+                                </div>
                             </div>
-                        </div>
                         {% endif %}
                         <div class="row pt-5">
                             <div class="col">
@@ -48,18 +48,18 @@
                             </div>
                         </div>
 
-                    <div class="row pt-5">
-                        <div class="col">
-                            <p>ILOŚĆ RZYMSKICH</p>
-                            <small>{{ montage.turnbuckles }}</small>
+                        <div class="row pt-5">
+                            <div class="col">
+                                <p>ILOŚĆ RZYMSKICH</p>
+                                <small>{{ montage.turnbuckles }}</small>
+                            </div>
+                            <div class="col">
+                                <p>ŁĄCZENIE BLATÓW</p>
+                                <small>{{ montage.type_table }}</small>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p>ŁĄCZENIE BLATÓW</p>
-                            <small>{{ montage.type_table }}</small>
-                        </div>
-                    </div>
 
-                    <div class="row pt-5">
+                        <div class="row pt-5">
                             <div class="col">
                                 <p>EKIPA</p>
                                 <small class="text-info font-weight-bold">{{ montage.montage.team }}</small>
@@ -75,12 +75,22 @@
                         </div>
 
 
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-{% include 'assets/lightbox.html' %}
+    <div class="container mt-4">
+        <div class="row">
+            <div class="intro">
+                <h2 class="text-center">Dodatkowe zdjęcia</h2>
+            </div>
+            <p class="text-center pt-2">
+                <a class="btn btn-dark" href="{% url 'core:update_montage_images' pk=pk %}">Dodaj dodatkowe zdjecia</a>
+            </p>
+
+        </div>
+    </div>
+    {% include 'assets/lightbox.html' %}
 
 {% endblock %}
