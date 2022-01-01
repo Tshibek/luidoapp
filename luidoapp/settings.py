@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'admin_honeypot',
     'widget_tweaks',
     'chartjs',
+    'video_encoding',
 
     'accounts',
     'stats',
