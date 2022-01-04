@@ -193,6 +193,11 @@ class MontagePaid(models.Model):
     def get_images(self):
         return MontageGallery.objects.filter(montage__pk=self.pk).all()
 
+    def get_video(self):
+        video = MontageVideoGallery.objects.filter(montage_id=self.pk).all()
+        return video
+
+
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['montage', 'date'], name='name of montage paid')
