@@ -89,10 +89,7 @@
             </div>
             <div class="row">
                 {% for video in montage.get_video %}
-                    <video width="400" controls Autoplay=autoplay>
-                        <source src="{{ MEDIA_URL}} {{ video.file }}" type="video/mp4">
-                        {{ video.file }}
-                    </video>
+                    <video width="400" src="{{ MEDIA_URL}} {{ video.file }}" controls Autoplay=autoplay></video>
 
                 {% endfor %}
             </div>

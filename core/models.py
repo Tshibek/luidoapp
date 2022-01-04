@@ -194,8 +194,8 @@ class MontagePaid(models.Model):
         return MontageGallery.objects.filter(montage__pk=self.pk).all()
 
     def get_video(self):
-        video = MontageVideoGallery.objects.filter(montage_id=self.pk).all()
-        return video
+        return MontageVideoGallery.objects.filter(montage__pk=self.pk).all()
+
 
 
     class Meta:
