@@ -28,6 +28,7 @@ def example_table(request, pk, month, year):
     monter = MonterDaily.objects.filter(name__pk=pk, date__month=month, date__year=year).order_by("date__day").all()
     mon = Monter.objects.filter(pk=pk).first()
     date = datetime.now()
+    pre_year = date.year - 1
     day_wise_data = {day: tuple(data) for day, data in groupby(monter, key=lambda each: each.date.day)}
     num_days = calendar.monthrange(date.year, month)[1]
     num_days = range(1, num_days + 1)
@@ -37,6 +38,8 @@ def example_table(request, pk, month, year):
     try:
         if year == date.year:
             sum_daily = mon.sum_daily_hours(month=month, year=date.year)
+        elif year == pre_year:
+            sum_daily = mon.sum_daily_hours(month=month, year=pre_year)
         else:
             messages.add_message(request, messages.INFO, 'Dla tego roku nie ma jeszcze danych!!')
             return redirect('core:monter_list')
