@@ -81,21 +81,22 @@
         </div>
     </div>
     {% if montage.get_video %}
-    <div class="container mt-4">
-        <div class="row">
-            <div class="intro">
-                <h2 class="text-center">Filmy</h2>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="intro">
+                    <h2 class="text-center">Filmy</h2>
+                </div>
+            </div>
+            <div class="row">
+                {% for video in montage.get_video %}
+                    <video width="400" controls Autoplay=autoplay>
+                        <source src="{{ MEDIA_URL}} {{ video.file }}" type="video/mp4">
+                        {{ video.file }}
+                    </video>
+
+                {% endfor %}
             </div>
         </div>
-        <div class="row">
-            {% for video in montage.get_video %}
-                <div class="embed-responsive embed-responsive-16by9">
-                    <iframe class="embed-responsive-item" src="{{ MEDIA_URL }}{{ video.files }}"
-                            allowfullscreen></iframe>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
     {% endif %}
     <div class="container mt-4">
         <div class="row">
