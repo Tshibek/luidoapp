@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'admin_honeypot',
     'widget_tweaks',
     'chartjs',
+    'django_rq',
     'video_encoding',
 
     'accounts',
@@ -194,3 +195,13 @@ else:
     SECURE_HSTS_PRELOAD = True
     SECURE_HSTS_SECONDS = 10000
     X_FRAME_OPTIONS = 'DENY'
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'DB': 0,
+        'PASSWORD': env('REDIS_PASSWORD'),
+        'DEFAULT_TIMEOUT': 360,
+    },
+}

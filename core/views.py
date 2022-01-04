@@ -11,14 +11,10 @@ from django.urls import reverse_lazy
 from django.utils import timezone
 
 from . import forms
-from .models import Team, Monter, MontagePaid, DailyMontage, MonterDaily, MontageGallery
+from .models import Team, Monter, MontagePaid, DailyMontage, MonterDaily, MontageGallery, MontageVideoGallery
 from itertools import groupby
 
 from .scrap_year_hours import scrap_monthly_hours
-
-
-
-
 
 
 @login_required()
@@ -56,7 +52,7 @@ def monter_data_list(request, pk, name):
     monter = MonterDaily.objects.filter(name=pk, name__name=name).all().order_by('-date')
     date = datetime.now()
     date_year = date.year
-    pre_year = date_year -1
+    pre_year = date_year - 1
     print(pre_year)
     context = locals()
     return render(request, 'list/monter_data_list.html', context)
@@ -212,11 +208,13 @@ def end_daily_montage(request):
 @login_required()
 def add_montage_paid(request):
     form = forms.MontageFullPaid()
-
+    montage_gallery = []
+    montage_video_gallery=[]
     context = locals()
     if request.method == 'POST':
         form = forms.MontageFullPaid(request.POST or None, request.FILES or None)
         files = request.FILES.getlist('images')
+        video_files = request.FILES.getlist('video')
         try:
             if form.is_valid():
                 montage = DailyMontage.objects.filter(user=request.user, date=timezone.localdate()).first()
@@ -225,7 +223,14 @@ def add_montage_paid(request):
                 instance.date = timezone.localdate()
                 instance.save()
                 for f in files:
-                    MontageGallery.objects.create(montage=instance, user_id=request.user.pk, images=f)
+                    montage_gallery.append(MontageGallery(montage=instance, user_id=request.user.pk, images=f))
+                MontageGallery.objects.bulk_create(montage_gallery)
+                if video_files:
+                    for video in video_files:
+                        montage_video_gallery.append(MontageVideoGallery(montage=instance, user_id=request.user.pk, file=video))
+                    MontageVideoGallery.objects.bulk_create(montage_video_gallery)
+
+
                 return redirect('core:team_list')
         except IntegrityError:
             messages.add_message(request, messages.ERROR, 'Ekipa o tej nazwie juz istnieje!')
@@ -238,15 +243,15 @@ def update_image_montage(request, pk):
     form = forms.ImagesUpdateMontageForm()
     context = locals()
     if request.method == 'POST':
-        form = forms.ImagesUpdateMontageForm(request.POST or None,request.FILES or None)
+        form = forms.ImagesUpdateMontageForm(request.POST or None, request.FILES or None)
         files = request.FILES.getlist('images')
         try:
             if form.is_valid():
-                form = forms.ImagesUpdateMontageForm(request.POST or None,request.FILES or None)
+                form = forms.ImagesUpdateMontageForm(request.POST or None, request.FILES or None)
                 files = request.FILES.getlist('images')
                 for f in files:
-                    MontageGallery.objects.create(user_id=request.user.pk, montage=montage_paid,images=f)
-            return redirect('core:montage_detail',pk=pk)
+                    MontageGallery.objects.create(user_id=request.user.pk, montage=montage_paid, images=f)
+            return redirect('core:montage_detail', pk=pk)
         except IntegrityError:
             messages.add_message(request, messages.ERROR, 'Nie udało się dodać zdjęć!')
-    return render(request,'forms/update_montage_image.html',context)
+    return render(request, 'forms/update_montage_image.html', context)

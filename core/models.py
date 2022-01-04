@@ -205,6 +205,12 @@ def montage_gallery_path(instance, filename):
     return 'img/montage/{}/{}/{}'.format(today_path, instance.user.username, filename)
 
 
+def montage_video_path(instance, filename):
+    today = timezone.localdate()
+    today_path = today.strftime("%Y/%m/%d")
+    return 'video/montage/{}/{}/{}'.format(today_path, instance.user.username, filename)
+
+
 class MontageVideoGallery(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     montage = models.ForeignKey(MontagePaid, on_delete=models.CASCADE)
@@ -213,7 +219,7 @@ class MontageVideoGallery(models.Model):
     duration = models.FloatField(editable=False, null=True)
 
     file = VideoField(width_field='width', height_field='height',
-                      duration_field='duration')
+                      duration_field='duration', upload_to=montage_video_path)
 
     format_set = GenericRelation(Format)
     date = models.DateField(auto_now_add=True)

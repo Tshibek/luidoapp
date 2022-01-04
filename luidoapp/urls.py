@@ -22,6 +22,7 @@ from . import settings
 urlpatterns = [
     path('admin/', include('admin_honeypot.urls', namespace='admin_honeypot')),
     path('luido_admin_site/', admin.site.urls),
+    path('django-rq/', include('django_rq.urls')),
     path('', include('core.urls', namespace='core')),
     path('accounts/', include('accounts.urls', namespace='accounts')),
     path('todo', include('todo.urls', namespace='todo')),

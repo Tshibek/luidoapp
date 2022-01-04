@@ -1,5 +1,8 @@
 from django.contrib import admin
 from . import models
+from django.contrib import admin
+from video_encoding.admin import FormatInline
+from .models import MontageVideoGallery
 
 
 class GalleryMontagePaid(admin.TabularInline):
@@ -15,8 +18,17 @@ class DailyMontageAdmin(admin.ModelAdmin):
     ordering = ['-date']
 
 
+@admin.register(MontageVideoGallery)
+class VideoAdmin(admin.ModelAdmin):
+    inlines = (FormatInline,)
+
+    list_dispaly = ('get_filename', 'width', 'height', 'duration')
+    fields = ('file', 'width', 'height', 'duration')
+    readonly_fields = fields
+
+
 admin.site.register(models.Monter)
 admin.site.register(models.Team)
-admin.site.register(models.DailyMontage,DailyMontageAdmin)
+admin.site.register(models.DailyMontage, DailyMontageAdmin)
 admin.site.register(models.MonterDaily)
 admin.site.register(models.MontagePaid, CustomMontagePaidAdmin)
