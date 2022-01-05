@@ -92,7 +92,7 @@
                 {% for video in montage.get_video %}
                     <h3>{{ video.file }}</h3>
                     <video controls="controls" width="200" height="200" name="{{ video}}">
-                        <source src="{{ video.file}}">
+                        <source src="{{ MEDIA_URL }}{{ video.file}}">
                     </video>
 
                 {% endfor %}
