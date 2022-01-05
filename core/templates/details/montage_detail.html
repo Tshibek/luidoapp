@@ -90,7 +90,7 @@
             <div class="row">
                 <h3>{{ montage.get_video }}</h3>
                 {% for video in montage.get_video %}
-                    <h3>{{ video }}</h3>
+                    <h3>{{ video.file }}</h3>
                     <video controls="controls" width="200" height="200" name="{{ video}}">
                         <source src="{{ video.file}}">
                     </video>
