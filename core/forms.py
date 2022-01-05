@@ -37,7 +37,7 @@ class MontagePaidForm(forms.ModelForm):
 
 class MontageFullPaid(MontagePaidForm):  # extending form
     images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    video = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    video = forms.FileField(required=False,widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
     class Meta(MontagePaidForm.Meta):
         fields = MontagePaidForm.Meta.fields + ('images', 'video')
@@ -45,3 +45,5 @@ class MontageFullPaid(MontagePaidForm):  # extending form
 
 class ImagesUpdateMontageForm(forms.Form):
     images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+
+

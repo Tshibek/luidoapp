@@ -212,7 +212,7 @@ def end_daily_montage(request):
 def add_montage_paid(request):
     form = forms.MontageFullPaid()
     montage_gallery = []
-    montage_video_gallery=[]
+    montage_video_gallery = []
     context = locals()
     if request.method == 'POST':
         form = forms.MontageFullPaid(request.POST or None, request.FILES or None)
@@ -230,9 +230,12 @@ def add_montage_paid(request):
                 MontageGallery.objects.bulk_create(montage_gallery)
                 if video_files:
                     for video in video_files:
-                        montage_video_gallery.append(MontageVideoGallery(montage=instance, user_id=request.user.pk, file=video))
+                        montage_video_gallery.append(
+                            MontageVideoGallery(montage=instance, user_id=request.user.pk, file=video))
                     MontageVideoGallery.objects.bulk_create(montage_video_gallery)
-
+                    print(video_files)
+                else:
+                    pass
 
                 return redirect('core:team_list')
         except IntegrityError:
