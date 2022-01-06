@@ -52,7 +52,12 @@ class DailyMontageAdmin(admin.ModelAdmin):
 class VideoAdmin(admin.ModelAdmin):
     inlines = (FormatInline,)
 
-    list_dispaly = ('get_filename', 'width', 'height', 'duration')
+    def video_tag(self, obj):
+        return format_html('<video controls="controls" width="200" height="200"><source src="{}"/></video>'.format(obj.file.url))
+
+    video_tag.short_description = 'Video'
+
+    list_dispaly = ('get_filename', 'video_tag', 'width', 'height', 'duration')
     fields = ('file', 'width', 'height', 'duration')
     readonly_fields = fields
 
