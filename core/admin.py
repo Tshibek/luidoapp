@@ -29,11 +29,11 @@ class CustomMontagePaidAdmin(admin.ModelAdmin):
 class DailyMontageAdmin(admin.ModelAdmin):
     ordering = ['-date']
     list_display = ['montage_team', 'type', 'date']
-    list_filter = ('type', 'team' 'date')
+    list_filter = ('type', 'date')
     raw_id_fields = ('team',)
     search_fields = ['team_team', ]
 
-    @admin.display(description='montage team name', ordering='team__team')
+    @admin.display(description='montage team name', ordering='team')
     def montage_team(self, obj):
         return obj.team.team
 
