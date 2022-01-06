@@ -32,7 +32,7 @@ class MonterDailyAdmin(admin.ModelAdmin):
     model = models.MonterDaily
     list_display = ['name_monter', 'status', 'time_start', 'end_time', 'daily_hours', 'date']
     list_filter = ('status', 'date',)
-    autocomplete_fields = ['name']
+    search_fields = ['name']
     @admin.display(description='Monter name', ordering='name__name')
     def name_monter(self, obj):
         return obj.name.name
