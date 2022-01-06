@@ -20,8 +20,23 @@ class GalleryMontagePaid(admin.TabularInline):
     readonly_fields = ['image_tag']
 
 
+class VideoAdmin(admin.TabularInline):
+    model = models.MontageVideoGallery
+    can_delete = True
+
+    def video_tag(self, obj):
+        return format_html(
+            '<video controls="controls" width="200" height="200"><source src="{}"/></video>'.format(obj.file.url))
+
+    video_tag.short_description = 'Video'
+
+    list_dispaly = ('get_filename', 'video_tag', 'width', 'height', 'duration')
+    fields = ('file', 'width', 'height', 'duration', 'video_tag')
+    readonly_fields = fields
+
+
 class CustomMontagePaidAdmin(admin.ModelAdmin):
-    inlines = (GalleryMontagePaid,)
+    inlines = (GalleryMontagePaid,VideoAdmin,)
     list_display = ['montage_team', 'montage_type', 'status', 'date', 'paid', ]
     list_filter = ('status', 'days', 'date')
     raw_id_fields = ('montage',)
@@ -46,20 +61,6 @@ class DailyMontageAdmin(admin.ModelAdmin):
     @admin.display(description='team name', ordering='team')
     def montage_team(self, obj):
         return obj.team.team
-
-
-@admin.register(MontageVideoGallery)
-class VideoAdmin(admin.ModelAdmin):
-    inlines = (FormatInline,)
-
-    def video_tag(self, obj):
-        return format_html('<video controls="controls" width="200" height="200"><source src="{}"/></video>'.format(obj.file.url))
-
-    video_tag.short_description = 'Video'
-
-    list_dispaly = ('get_filename', 'video_tag', 'width', 'height', 'duration')
-    fields = ('file', 'width', 'height', 'duration')
-    readonly_fields = fields
 
 
 @admin.register(models.MonterDaily)
