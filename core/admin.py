@@ -12,10 +12,30 @@ class GalleryMontagePaid(admin.TabularInline):
 
 class CustomMontagePaidAdmin(admin.ModelAdmin):
     inlines = (GalleryMontagePaid,)
+    list_display = ['montage_team', 'montage_type', 'status', 'date', 'paid', ]
+    list_filter = ('status', 'days', 'date')
+    raw_id_fields = ('montage',)
+    search_fields = ['montage__team_team', ]
+
+    @admin.display(description='montage team name', ordering='montage__team')
+    def montage_team(self, obj):
+        return obj.montage.team.team
+
+    @admin.display(description='Montage type', ordering='montage__type')
+    def montage_type(self, obj):
+        return obj.montage.type
 
 
 class DailyMontageAdmin(admin.ModelAdmin):
     ordering = ['-date']
+    list_display = ['montage_team', 'type', 'date']
+    list_filter = ('type', 'team__team' 'date')
+    raw_id_fields = ('team',)
+    search_fields = ['team_team', ]
+
+    @admin.display(description='montage team name', ordering='team__team')
+    def montage_team(self, obj):
+        return obj.team.name
 
 
 @admin.register(MontageVideoGallery)
