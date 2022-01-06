@@ -35,7 +35,7 @@ class DailyMontageAdmin(admin.ModelAdmin):
 
     @admin.display(description='montage team name', ordering='team__team')
     def montage_team(self, obj):
-        return obj.team.name
+        return obj.team.team
 
 
 @admin.register(MontageVideoGallery)
