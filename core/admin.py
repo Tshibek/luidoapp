@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html
+
 from . import models
 from django.contrib import admin
 from video_encoding.admin import FormatInline
@@ -9,6 +11,14 @@ class GalleryMontagePaid(admin.TabularInline):
     model = models.MontageGallery
     can_delete = True
 
+    def image_tag(self, obj):
+        return format_html('<img src="{}" width="auto" height="200px" />'.format(obj.images.url))
+
+    image_tag.short_description = 'Image'
+
+    list_display = ['image_tag']
+    readonly_fields = ['image_tag']
+
 
 class CustomMontagePaidAdmin(admin.ModelAdmin):
     inlines = (GalleryMontagePaid,)
@@ -17,7 +27,7 @@ class CustomMontagePaidAdmin(admin.ModelAdmin):
     raw_id_fields = ('montage',)
     search_fields = ['montage__team_team', ]
 
-    @admin.display(description='montage team name', ordering='montage__team')
+    @admin.display(description='team name', ordering='montage__team')
     def montage_team(self, obj):
         return obj.montage.team.team
 
@@ -33,7 +43,7 @@ class DailyMontageAdmin(admin.ModelAdmin):
     raw_id_fields = ('team',)
     search_fields = ['team_team', ]
 
-    @admin.display(description='montage team name', ordering='team')
+    @admin.display(description='team name', ordering='team')
     def montage_team(self, obj):
         return obj.team.team
 
