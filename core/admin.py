@@ -30,7 +30,7 @@ class VideoAdmin(admin.TabularInline):
 
     video_tag.short_description = 'Video'
 
-    list_dispaly = ('get_filename', 'video_tag', 'width', 'height', 'duration')
+    list_display = ('get_filename', 'video_tag', 'width', 'height', 'duration')
     fields = ('file', 'width', 'height', 'duration', 'video_tag')
     readonly_fields = fields
 
