@@ -29,7 +29,7 @@ class CustomMontagePaidAdmin(admin.ModelAdmin):
 class DailyMontageAdmin(admin.ModelAdmin):
     ordering = ['-date']
     list_display = ['montage_team', 'type', 'date']
-    list_filter = ('type', 'team__team' 'date')
+    list_filter = ('type', 'team' 'date')
     raw_id_fields = ('team',)
     search_fields = ['team_team', ]
 
