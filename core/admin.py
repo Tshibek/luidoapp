@@ -27,8 +27,19 @@ class VideoAdmin(admin.ModelAdmin):
     readonly_fields = fields
 
 
+@admin.register(models.MonterDaily)
+class MonterDailyAdmin(admin.ModelAdmin):
+    model = models.MonterDaily
+    list_display = ['name_monter', 'status', 'time_start', 'end_time', 'daily_hours', 'date']
+    list_filter = ('status', 'date', 'time_start', 'end_time', 'daily_hours')
+    search_fields = ['name_monter']
+    @admin.display(description='Monter name', ordering='name__name')
+    def name_monter(self, obj):
+        return obj.name.name
+
+
 admin.site.register(models.Monter)
 admin.site.register(models.Team)
 admin.site.register(models.DailyMontage, DailyMontageAdmin)
-admin.site.register(models.MonterDaily)
+
 admin.site.register(models.MontagePaid, CustomMontagePaidAdmin)
