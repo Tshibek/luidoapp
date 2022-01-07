@@ -74,7 +74,7 @@ class DailyEndWorkFilter(SimpleListFilter):
         ]
 
     def queryset(self, request, queryset):
-        if self.value():
+        if self.value() is None:
             return queryset.distinct().filter(end_time__isnull=True)
         # if self.value():
         #     return queryset.distinct().filter(end_time__isnull=True)
