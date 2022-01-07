@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.contrib.admin import SimpleListFilter
 from django.utils.html import format_html
 
 from . import models
@@ -63,11 +64,27 @@ class DailyMontageAdmin(admin.ModelAdmin):
         return obj.team.team
 
 
+class DailyEndWorkFilter(SimpleListFilter):
+    title = "Koniec Pracy status"
+    parameter_name = 'end time'
+
+    def lookups(self, request, model_admin):
+        return [
+            ('', 'Brak')
+        ]
+
+    def queryset(self, request, queryset):
+        if self.value() == '':
+            return queryset.distinct().filter(end_time='')
+        if self.value():
+            return queryset.distinct().filter(end_time__isnull=True)
+
+
 @admin.register(models.MonterDaily)
 class MonterDailyAdmin(admin.ModelAdmin):
     model = models.MonterDaily
-    list_display = ['montage_team','name_monter', 'status', 'time_start', 'end_time', 'daily_hours', 'date']
-    list_filter = ('status', 'date',)
+    list_display = ['montage_team', 'name_monter', 'status', 'time_start', 'end_time', 'daily_hours', 'date']
+    list_filter = ('status', 'date', DailyEndWorkFilter)
     raw_id_fields = ('name', 'daily_montage')
     search_fields = ['name__name', 'daily_montage__team__team']
 
