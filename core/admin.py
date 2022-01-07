@@ -75,7 +75,7 @@ class DailyEndWorkFilter(SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() == '':
-            return queryset.distinct().filter(end_time=None)
+            return queryset.distinct().filter(end_time__isnull=False)
         if self.value():
             return queryset.distinct().filter(end_time__isnull=True)
 
@@ -84,7 +84,7 @@ class DailyEndWorkFilter(SimpleListFilter):
 class MonterDailyAdmin(admin.ModelAdmin):
     model = models.MonterDaily
     list_display = ['montage_team', 'name_monter', 'status', 'time_start', 'end_time', 'daily_hours', 'date']
-    list_filter = ('status', 'date', )
+    list_filter = ('status', 'date', DailyEndWorkFilter)
     raw_id_fields = ('name', 'daily_montage')
     search_fields = ['name__name', 'daily_montage__team__team']
 

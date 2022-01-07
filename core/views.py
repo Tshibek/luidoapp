@@ -161,8 +161,6 @@ def add_daily_montage(request):
                             monter = form.save(commit=False)
                             monter.daily_montage = daily
                             monter.time_start = timezone.localtime()
-                            monter.end_time = None
-                            monter.daily_hours = None
                             monter.date = timezone.localdate()
                             monter.save()
                 return redirect('core:daily_hours')
