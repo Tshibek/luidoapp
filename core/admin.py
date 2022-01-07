@@ -70,7 +70,7 @@ class DailyEndWorkFilter(SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return [
-            ('', '')
+            ('', 'Brak godzin')
         ]
 
     def queryset(self, request, queryset):
