@@ -70,12 +70,12 @@ class DailyEndWorkFilter(SimpleListFilter):
 
     def lookups(self, request, model_admin):
         return [
-            ('', 'Brak')
+            ('', '')
         ]
 
     def queryset(self, request, queryset):
         if self.value() is None:
-            return queryset.distinct().filter(end_time__isnull=True)
+            return queryset.distinct().filter(end_time__isnull=False)
         # if self.value():
         #     return queryset.distinct().filter(end_time__isnull=True)
 
