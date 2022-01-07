@@ -249,3 +249,6 @@ class MontageGallery(models.Model):
         uploadedImage = InMemoryUploadedFile(outputIoStream, 'ImageField', "%s.jpg" % images.name.split('.')[0],
                                              'image/jpeg', sys.getsizeof(outputIoStream), None)
         return uploadedImage
+
+
+

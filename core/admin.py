@@ -56,7 +56,7 @@ class DailyMontageAdmin(admin.ModelAdmin):
     list_display = ['montage_team', 'type', 'date']
     list_filter = ('type', 'date')
     raw_id_fields = ('team',)
-    search_fields = ['team_team', ]
+    search_fields = ['team__team', ]
 
     @admin.display(description='team name', ordering='team')
     def montage_team(self, obj):
