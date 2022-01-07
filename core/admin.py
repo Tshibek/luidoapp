@@ -36,7 +36,7 @@ class VideoAdmin(admin.TabularInline):
 
 
 class CustomMontagePaidAdmin(admin.ModelAdmin):
-    inlines = (GalleryMontagePaid,VideoAdmin,)
+    inlines = (GalleryMontagePaid, VideoAdmin,)
     list_display = ['montage_team', 'montage_type', 'status', 'date', 'paid', ]
     list_filter = ('status', 'days', 'date')
     raw_id_fields = ('montage',)
@@ -66,14 +66,18 @@ class DailyMontageAdmin(admin.ModelAdmin):
 @admin.register(models.MonterDaily)
 class MonterDailyAdmin(admin.ModelAdmin):
     model = models.MonterDaily
-    list_display = ['name_monter', 'status', 'time_start', 'end_time', 'daily_hours', 'date']
+    list_display = ['montage_team','name_monter', 'status', 'time_start', 'end_time', 'daily_hours', 'date']
     list_filter = ('status', 'date',)
-    raw_id_fields = ('name',)
-    search_fields = ['name__name', ]
+    raw_id_fields = ('name', 'daily_montage')
+    search_fields = ['name__name', 'daily_montage__team__team']
 
     @admin.display(description='Monter name', ordering='name__name')
     def name_monter(self, obj):
         return obj.name.name
+
+    @admin.display(description='Team name', ordering='daily_montage__team__team')
+    def montage_team(self, obj):
+        return obj.daily_montage.team.team
 
 
 admin.site.register(models.Monter)
