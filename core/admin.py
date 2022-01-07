@@ -84,7 +84,7 @@ class DailyEndWorkFilter(SimpleListFilter):
 class MonterDailyAdmin(admin.ModelAdmin):
     model = models.MonterDaily
     list_display = ['montage_team', 'name_monter', 'status', 'time_start', 'end_time', 'daily_hours', 'date']
-    list_filter = ('status', 'date', DailyEndWorkFilter)
+    list_filter = ('status', 'date', )
     raw_id_fields = ('name', 'daily_montage')
     search_fields = ['name__name', 'daily_montage__team__team']
 
