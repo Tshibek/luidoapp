@@ -64,12 +64,15 @@ def monter_data_list(request, pk, name):
 @login_required()
 def daily_hours(request):
     user = User.objects.get(pk=request.user.pk)
-    if request.user.is_superuser or request.user.is_staff:
-        dailys = DailyMontage.objects.all().order_by('-date')
-    elif user.username == 'luido_sc2':
-        dailys = DailyMontage.objects.filter(team__team='LUIDO').all().order_by('-date')
-    else:
-        dailys = DailyMontage.objects.filter(team__team=user.username).all().order_by('-date')
+    try:
+        if request.user.is_superuser or request.user.is_staff:
+            dailys = DailyMontage.objects.all().order_by('-date')
+        elif user.username == 'luido_sc2':
+            dailys = DailyMontage.objects.filter(team__team='LUIDO').all().order_by('-date')
+        else:
+            dailys = DailyMontage.objects.filter(team__team=user.username).all().order_by('-date')
+    except Exception as e:
+        messages.add_message(request, messages.INFO, f"Błąd! -  {e}")
     context = locals()
     return render(request, 'hours.html', context)
 
@@ -176,36 +179,38 @@ def add_daily_montage(request):
 @login_required()
 def end_daily_montage(request):
     team = DailyMontage.objects.filter(user=request.user, date=timezone.localdate()).first()
-    if team:
-        montage = MonterDaily.objects.filter(daily_montage=team.pk).all()
-        for mon in montage:
-            if mon.status == 'URLOP' or mon.status == 'L4' or mon.status == 'UŻ':
-                start = mon.time_start
-                ax = int(start.strftime('%H')) * 60 + (int(start.strftime('%M')))
-                zx = (ax + 480) / 60
-                h = int(zx)
-                m = (h * 60) % 60
-                mon.end_time = "%d:%02d" % (h, m)
-                mon.save()
-                all_time = 480 / 60
-                ho = int(all_time)
-                mins = (ho * 60) % 60
-                mon.daily_hours = "%d:%02d" % (ho, mins)
-                mon.save()
-            else:
-                mon.end_time = timezone.localtime()
-                mon.save()
-                end = mon.end_time
-                start = mon.time_start
-                x = int(end.strftime('%H')) * 60 + (int(end.strftime('%M')))
-                y = int(start.strftime('%H')) * 60 + (int(start.strftime('%M')))
-                time = (x - y) / 60
-                hours = int(time)
-                minutes = (time * 60) % 60
-                mon.daily_hours = "%d:%02d" % (hours, minutes)
-                mon.save()
-
-        return HttpResponseRedirect(reverse_lazy('core:daily_hours'))
+    try:
+        if team:
+            montage = MonterDaily.objects.filter(daily_montage=team.pk).all()
+            for mon in montage:
+                if mon.status == 'URLOP' or mon.status == 'L4' or mon.status == 'UŻ':
+                    start = mon.time_start
+                    ax = int(start.strftime('%H')) * 60 + (int(start.strftime('%M')))
+                    zx = (ax + 480) / 60
+                    h = int(zx)
+                    m = (h * 60) % 60
+                    mon.end_time = "%d:%02d" % (h, m)
+                    mon.save()
+                    all_time = 480 / 60
+                    ho = int(all_time)
+                    mins = (ho * 60) % 60
+                    mon.daily_hours = "%d:%02d" % (ho, mins)
+                    mon.save()
+                else:
+                    mon.end_time = timezone.localtime()
+                    mon.save()
+                    end = mon.end_time
+                    start = mon.time_start
+                    x = int(end.strftime('%H')) * 60 + (int(end.strftime('%M')))
+                    y = int(start.strftime('%H')) * 60 + (int(start.strftime('%M')))
+                    time = (x - y) / 60
+                    hours = int(time)
+                    minutes = (time * 60) % 60
+                    mon.daily_hours = "%d:%02d" % (hours, minutes)
+                    mon.save()
+    except Exception as e:
+        messages.add_message(request, messages.INFO, f"Błąd! -  {e}")
+    return HttpResponseRedirect(reverse_lazy('core:daily_hours'))
 
 
 @login_required()

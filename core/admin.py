@@ -4,7 +4,7 @@ from django.utils.html import format_html
 
 from . import models
 from django.contrib import admin
-from video_encoding.admin import FormatInline
+
 from .models import MontageVideoGallery
 
 
@@ -31,8 +31,8 @@ class VideoAdmin(admin.TabularInline):
 
     video_tag.short_description = 'Video'
 
-    list_display = ('get_filename', 'video_tag', 'width', 'height', 'duration')
-    fields = ('file', 'width', 'height', 'duration', 'video_tag')
+    list_display = ('get_filename',)
+    fields = ('file',)
     readonly_fields = fields
 
 

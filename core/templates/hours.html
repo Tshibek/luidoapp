@@ -3,6 +3,18 @@
 
 {% block content %}
     <div class="container">
+    {% if messages %}
+        <div class="alert">
+            {% for message in messages %}
+                <div class="alert alert-{% if message.tags == 'info' %}info{% endif %}" role="alert">
+                    <h4 class="alert-heading">INFORMACJA</h4>
+                    <p>{{ message }}</p>
+                    <hr>
+                </div>
+
+            {% endfor %}
+        </div>
+    {% endif %}
         {% include 'buttons/layout_work.html' %}
         <div class="row">
             <div class="col-12 my-5">

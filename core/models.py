@@ -14,9 +14,9 @@ from django.utils import timezone
 from sorl.thumbnail import ImageField
 from PIL import Image, ImageOps
 from io import BytesIO
-
-from video_encoding.fields import VideoField
-from video_encoding.models import Format
+#
+# from video_encoding.fields import VideoField
+# from video_encoding.models import Format
 
 from stats.charts import get_year_dict, months
 from . import utils
@@ -219,14 +219,9 @@ def montage_video_path(instance, filename):
 class MontageVideoGallery(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     montage = models.ForeignKey(MontagePaid, on_delete=models.CASCADE)
-    width = models.PositiveIntegerField(editable=False, null=True)
-    height = models.PositiveIntegerField(editable=False, null=True)
-    duration = models.FloatField(editable=False, null=True)
 
-    file = VideoField(width_field='width', height_field='height',
-                      duration_field='duration', upload_to=montage_video_path)
+    file = models.FileField(upload_to=montage_video_path)
 
-    format_set = GenericRelation(Format)
     date = models.DateField(auto_now_add=True)
 
 
