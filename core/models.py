@@ -219,6 +219,9 @@ def montage_video_path(instance, filename):
 class MontageVideoGallery(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     montage = models.ForeignKey(MontagePaid, on_delete=models.CASCADE)
+    width = models.PositiveIntegerField(editable=False, null=True)
+    height = models.PositiveIntegerField(editable=False, null=True)
+    duration = models.FloatField(editable=False, null=True)
 
     file = models.FileField(upload_to=montage_video_path)
 
